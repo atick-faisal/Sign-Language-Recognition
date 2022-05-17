@@ -2,6 +2,11 @@ const server = require("http").createServer();
 const io = require("socket.io")(server, {
     cors: { origin: "*" },
 });
+const leapjs = require("leapjs");
+const { setLmcCallbacks } = require("./lmc");
+
+const controller = new leapjs.Controller();
+setLmcCallbacks(controller);
 
 let counter = 0;
 
