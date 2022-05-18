@@ -1,3 +1,5 @@
+const { processFrames, writeBuffer } = require("./process-frames");
+
 function setLmcCallbacks(controller) {
     controller.on("ready", () => {
         console.log("lmc is ready ... ");
@@ -16,12 +18,16 @@ function setLmcCallbacks(controller) {
     });
     controller.on("streamingStarted", () => {
         console.log("lmc is streaming data ... ");
+        setTimeout(() => {
+            writeBuffer();
+        }, 5000);
     });
     controller.on("streamingStopped", () => {
         console.log("lmc stopped streaming data ");
     });
 
     controller.on("frame", (frame) => {
+        processFrames(frame);
         // console.log(frame.currentFrameRate);
     });
 

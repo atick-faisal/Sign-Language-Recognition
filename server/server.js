@@ -18,7 +18,7 @@ io.on("connection", (socket) => {
 });
 
 server.listen(8080, () => {
-    console.log("listenning on http://localhost:8080");
+    console.log("listening on http://localhost:8080");
 });
 
 setInterval(() => {
