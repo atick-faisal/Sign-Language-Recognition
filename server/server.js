@@ -6,9 +6,7 @@ const leapjs = require("leapjs");
 const { setLmcCallbacks } = require("./lmc");
 
 const controller = new leapjs.Controller();
-setLmcCallbacks(controller);
-
-let counter = 0;
+setLmcCallbacks(controller, io);
 
 io.on("connection", (socket) => {
     console.log("a user connected");
@@ -20,9 +18,3 @@ io.on("connection", (socket) => {
 server.listen(8080, () => {
     console.log("listening on http://localhost:8080");
 });
-
-setInterval(() => {
-    console.log(`counter: ${counter}`);
-    io.emit("message", `Counter = ${counter}`);
-    counter++;
-}, 1000);

@@ -6,7 +6,7 @@ function App() {
 
     useEffect(() => {
         const socket = io("ws://localhost:8080");
-        socket.on("message", (content) => {
+        socket.on("status", (content) => {
             setMessage(content);
         });
         return () => socket.close();
