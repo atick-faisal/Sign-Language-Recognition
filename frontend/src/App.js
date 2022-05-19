@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
+import Form from "./components/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 function App() {
     const [message, setMessage] = useState("Hello");
 
@@ -11,11 +14,7 @@ function App() {
         });
         return () => socket.close();
     }, []);
-    return (
-        <div className="App">
-            <h1>{message}</h1>
-        </div>
-    );
+    return <Form message={message} />;
 }
 
 export default App;
