@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardSubtitle, CardTitle } from "reactstrap";
+import { Card, CardSubtitle, CardTitle, Collapse } from "reactstrap";
 import { Label, Input } from "reactstrap";
 import { Button } from "reactstrap";
 import GestureSelector from "./GestureSelector";
@@ -81,11 +81,12 @@ export default function Form({ message }) {
                 <Button color={submitBtnColor} onClick={onSubmitClick}>
                     {buttonText}
                 </Button>
-                <ProgressBar
-                    isRecording={isRecording}
-                    preparationProgress={preparationProgress}
-                    recordingProgress={recordingProgress}
-                />
+                <Collapse isOpen={isRecording}>
+                    <ProgressBar
+                        preparationProgress={preparationProgress}
+                        recordingProgress={recordingProgress}
+                    />
+                </Collapse>
             </Card>
         </div>
     );
