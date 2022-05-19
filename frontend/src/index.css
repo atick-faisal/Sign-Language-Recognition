@@ -8,10 +8,17 @@ body {
 }
 
 .container {
-	width: 50%;
-	justify-content: center;
-	border: 2px;
-	border-style: solid;
+	margin-top: 100px;
+}
+
+.formContainer {
+	padding: 2rem;
+
+}
+
+.dropdown-menu {
+	max-height: 280px;
+	overflow-y: auto;
 }
 
 code {
