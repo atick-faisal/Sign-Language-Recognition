@@ -1,25 +1,25 @@
 import { Button, ButtonGroup } from "reactstrap";
 import { BsSpeedometer } from "react-icons/bs";
-import { FaHandPaper, FaFingerprint } from "react-icons/fa";
+import { FaRegHandPaper, FaFingerprint } from "react-icons/fa";
 
-export default function StatusHeader() {
+export default function StatusHeader({ framerate, hands, fingers }) {
     return (
         // <div className="d-flex justify-content-center">
         <ButtonGroup>
             <Button className="w-50" outline color="secondary">
-                <BsSpeedometer size={40} />
+                <BsSpeedometer size={40} style={{ margin: "8px" }} />
                 <br />
-                Frame Rate: {110}
+                <h6>Frame Rate: {parseInt(framerate)}</h6>
             </Button>
             <Button className="w-50" outline color="secondary">
-                <FaHandPaper size={40} />
+                <FaRegHandPaper size={40} style={{ margin: "8px" }} />
                 <br />
-                Number of Hands: {2}
+                <h6>Number of Hands: {hands}</h6>
             </Button>
             <Button className="w-50" outline color="secondary">
-                <FaFingerprint size={40} />
+                <FaFingerprint size={40} style={{ margin: "8px" }} />
                 <br />
-                Number of Fingers: {10}
+                <h6>Number of Fingers: {fingers}</h6>
             </Button>
         </ButtonGroup>
         // </div>

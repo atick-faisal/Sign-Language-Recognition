@@ -1,5 +1,9 @@
 const { processFrames, writeBuffer } = require("./process-frames");
 
+var framerate = 0;
+var hands = 0;
+var fingers = 0;
+
 function setLmcCallbacks(controller, io) {
     controller.on("ready", () => {
         io.emit("status", "LMC is Ready");
@@ -24,9 +28,11 @@ function setLmcCallbacks(controller, io) {
     controller.on("streamingStarted", () => {
         io.emit("status", "Data Streaming has Started");
         console.log("lmc is streaming data ... ");
-        setTimeout(() => {
-            writeBuffer();
-        }, 5000);
+        setInterval(() => {
+            io.emit("framerate", framerate);
+            io.emit("hands", hands);
+            io.emit("fingers", fingers);
+        }, 100);
     });
     controller.on("streamingStopped", () => {
         io.emit("status", "Data Streaming is Stopped");
@@ -34,7 +40,9 @@ function setLmcCallbacks(controller, io) {
     });
 
     controller.on("frame", (frame) => {
-        io.emit("framerate", `Frame Rate: ${frame.currentFrameRate}`);
+        framerate = frame.currentFrameRate;
+        hands = frame.hands.length;
+        fingers = frame.fingers.length;
         processFrames(frame);
         // console.log(frame.currentFrameRate);
     });

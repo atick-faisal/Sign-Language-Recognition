@@ -16,7 +16,7 @@ const PREPARATION_UPDATE_COUNT = PREPARATION_DURATION / PROGRESS_UPDATE_INT;
 
 var count = 0;
 
-export default function Form({ message }) {
+export default function Form({ status, framerate, hands, fingers }) {
     const [gesture, setGesture] = useState();
     const [submitBtnColor, setSubmitBtnColor] = useState("success");
     const [isRecording, setRecording] = useState(false);
@@ -66,10 +66,14 @@ export default function Form({ message }) {
                 <CardTitle tag="h3">Data Collector</CardTitle>
                 <CardSubtitle className="mb-2 text-muted" tag="h6">
                     Leap Motion Controller Status:
-                    <b> {message} </b>
+                    <b> {status} </b>
                 </CardSubtitle>
                 <br />
-                <StatusHeader />
+                <StatusHeader
+                    framerate={framerate}
+                    hands={hands}
+                    fingers={fingers}
+                />
                 <br />
                 <Label>Subject ID</Label>
                 <Input
