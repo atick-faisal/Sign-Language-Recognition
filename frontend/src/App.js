@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardSubtitle, CardTitle } from "reactstrap";
 import StatusHeader from "./components/StatusHeader";
 import Form from "./components/Form";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./scss/app.scss";
 
 function App() {
     const [status, setStatus] = useState("Not Connected");
