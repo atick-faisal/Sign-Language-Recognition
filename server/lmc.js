@@ -1,8 +1,17 @@
 const { processFrames, writeBuffer } = require("./process-frames");
 
-var framerate = 0;
-var hands = 0;
-var fingers = 0;
+let framerate = 0;
+let hands = 0;
+let fingers = 0;
+let isRecording = false;
+
+function startRecording(duration, subjectId, gesture) {
+    isRecording = true;
+    setTimeout(() => {
+        isRecording = false;
+        writeBuffer(subjectId, gesture);
+    }, duration);
+}
 
 function setLmcCallbacks(controller, io) {
     controller.on("ready", () => {
@@ -43,7 +52,7 @@ function setLmcCallbacks(controller, io) {
         framerate = frame.currentFrameRate;
         hands = frame.hands.length;
         fingers = frame.fingers.length;
-        processFrames(frame);
+        if (isRecording) processFrames(frame);
         // console.log(frame.currentFrameRate);
     });
 
@@ -51,4 +60,4 @@ function setLmcCallbacks(controller, io) {
     console.log("waiting for lmc to connect ... ");
 }
 
-module.exports = { setLmcCallbacks };
+module.exports = { setLmcCallbacks, startRecording };

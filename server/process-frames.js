@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 var buffer =
     "time,rpx,rpy,rpz,lpx,lpy,lpx,rf0x,rf0y,rf0z," +
@@ -49,8 +50,14 @@ function processFrames(frame) {
         "\n";
 }
 
-function writeBuffer() {
-    fs.writeFile("../data/dataset/demo.csv", buffer, (e) => {
+function writeBuffer(subjectId, gesture) {
+    let timestamp = new Date().getTime();
+    let saveDir = path.join("..", "data", "dataset", subjectId, gesture);
+    let filePath = path.join(saveDir, `${timestamp}.csv`);
+    if (!fs.existsSync(saveDir)) {
+        fs.mkdirSync(saveDir, { recursive: true });
+    }
+    fs.writeFile(filePath, buffer, (e) => {
         if (e) throw e;
         console.log("file written to disk!");
     });
