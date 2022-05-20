@@ -1,5 +1,7 @@
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
+import { Card, CardSubtitle, CardTitle } from "reactstrap";
+import StatusHeader from "./components/StatusHeader";
 import Form from "./components/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -31,12 +33,23 @@ function App() {
         return () => socket.close();
     }, []);
     return (
-        <Form
-            status={status}
-            framerate={framerate}
-            hands={hands}
-            fingers={fingers}
-        />
+        <div className="container w-50">
+            <Card className="formContainer">
+                <CardTitle tag="h3">Data Collector</CardTitle>
+                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                    Leap Motion Controller Status:
+                    <b> {status} </b>
+                </CardSubtitle>
+                <br />
+                <StatusHeader
+                    framerate={framerate}
+                    hands={hands}
+                    fingers={fingers}
+                />
+                <br />
+                <Form />
+            </Card>
+        </div>
     );
 }
 

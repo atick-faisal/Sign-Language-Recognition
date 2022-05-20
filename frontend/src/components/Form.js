@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { Card, CardSubtitle, CardTitle, Collapse } from "reactstrap";
-import { Label, Input } from "reactstrap";
+import { Label, Input, Collapse } from "reactstrap";
 import { Button } from "reactstrap";
 import GestureSelector from "./GestureSelector";
 import ProgressBar from "./ProgressBar";
-import StatusHeader from "./StatusHeader";
 
 const PROGRESS_UPDATE_INT = 100;
 const PREPARATION_DURATION = 3000;
@@ -16,7 +14,7 @@ const PREPARATION_UPDATE_COUNT = PREPARATION_DURATION / PROGRESS_UPDATE_INT;
 
 var count = 0;
 
-export default function Form({ status, framerate, hands, fingers }) {
+export default function Form() {
     const [gesture, setGesture] = useState();
     const [submitBtnColor, setSubmitBtnColor] = useState("success");
     const [isRecording, setRecording] = useState(false);
@@ -61,40 +59,30 @@ export default function Form({ status, framerate, hands, fingers }) {
     };
 
     return (
-        <div className="container w-50">
-            <Card className="formContainer">
-                <CardTitle tag="h3">Data Collector</CardTitle>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Leap Motion Controller Status:
-                    <b> {status} </b>
-                </CardSubtitle>
-                <br />
-                <StatusHeader
-                    framerate={framerate}
-                    hands={hands}
-                    fingers={fingers}
+        <div className="d-flex-vertical form">
+            <Label>Subject ID</Label>
+            <Input
+                id="subjectId"
+                name="subject-id"
+                placeholder="Unique ID of the Subject. Example: 007"
+                type="text"
+            />
+            <br />
+            <GestureSelector gesture={gesture} setGesture={setGesture} />
+            <br />
+            <Button
+                className="w-100"
+                color={submitBtnColor}
+                onClick={onSubmitClick}
+            >
+                {buttonText}
+            </Button>
+            <Collapse isOpen={isRecording}>
+                <ProgressBar
+                    preparationProgress={preparationProgress}
+                    recordingProgress={recordingProgress}
                 />
-                <br />
-                <Label>Subject ID</Label>
-                <Input
-                    id="subjectId"
-                    name="subject-id"
-                    placeholder="Unique ID of the Subject. Example: 007"
-                    type="text"
-                />
-                <br />
-                <GestureSelector gesture={gesture} setGesture={setGesture} />
-                <br />
-                <Button color={submitBtnColor} onClick={onSubmitClick}>
-                    {buttonText}
-                </Button>
-                <Collapse isOpen={isRecording}>
-                    <ProgressBar
-                        preparationProgress={preparationProgress}
-                        recordingProgress={recordingProgress}
-                    />
-                </Collapse>
-            </Card>
+            </Collapse>
         </div>
     );
 }

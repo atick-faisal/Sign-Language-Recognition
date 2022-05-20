@@ -13,7 +13,7 @@ export default function GestureSelector({ gesture, setGesture }) {
     const [toggle, setToggle] = useState(false);
 
     return (
-        <>
+        <div className="d-flex-vertical">
             <Label>Name of the Gesture</Label>
             <Dropdown isOpen={toggle} toggle={() => setToggle(!toggle)}>
                 <InputGroup>
@@ -41,6 +41,6 @@ export default function GestureSelector({ gesture, setGesture }) {
                     </DropdownMenu>
                 </InputGroup>
             </Dropdown>
-        </>
+        </div>
     );
 }
