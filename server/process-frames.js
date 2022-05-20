@@ -1,18 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
-var buffer =
+let columns =
     "time,rpx,rpy,rpz,lpx,lpy,lpx,rf0x,rf0y,rf0z," +
     "rf1x,rf1y,rf1z,rf2x,rf2y,rf2z,rf3x,rf3y,rf3z,rf4x,rf4y,rf4z," +
     "lf0x,lf0y,lf0z,lf1x,lf1y,lf1z,lf2x,lf2y,lf2z,lf3x,lf3y,lf3z," +
     "lf4x,lf4y,lf4z\n";
 
-var timestamp = 0;
-var rightPalmPosition = new Array(3).fill(0);
-var leftPalmPosition = new Array(3).fill(0);
-var rightHandFingerTips = new Array(15).fill(0);
-var leftHandFingerTips = new Array(15).fill(0);
-var handFlag = true; // rightHand -> true leftHand -> false
+let buffer = columns;
+
+let timestamp = 0;
+let rightPalmPosition = new Array(3).fill(0);
+let leftPalmPosition = new Array(3).fill(0);
+let rightHandFingerTips = new Array(15).fill(0);
+let leftHandFingerTips = new Array(15).fill(0);
+let handFlag = true; // rightHand -> true leftHand -> false
 
 function processFrames(frame) {
     timestamp = frame.timestamp;
@@ -60,6 +62,7 @@ function writeBuffer(subjectId, gesture) {
     fs.writeFile(filePath, buffer, (e) => {
         if (e) throw e;
         console.log("file written to disk!");
+        buffer = columns;
     });
 }
 
