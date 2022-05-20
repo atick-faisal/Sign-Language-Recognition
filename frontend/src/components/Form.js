@@ -14,8 +14,9 @@ const PREPARATION_UPDATE_COUNT = PREPARATION_DURATION / PROGRESS_UPDATE_INT;
 
 var count = 0;
 
-export default function Form() {
-    const [gesture, setGesture] = useState();
+export default function Form({ onSubmit }) {
+    const [subjectId, setSubjectId] = useState("");
+    const [gesture, setGesture] = useState("");
     const [submitBtnColor, setSubmitBtnColor] = useState("primary");
     const [isRecording, setRecording] = useState(false);
     const [preparationProgress, setPreparationProgress] = useState(0);
@@ -46,6 +47,7 @@ export default function Form() {
             }, PREPARATION_DURATION);
 
             setTimeout(() => {
+                onSubmit(RECORDING_DURATION, subjectId, gesture);
                 setSubmitBtnColor("primary");
                 setButtonText("Start Recording");
                 setRecording(false);
@@ -66,6 +68,8 @@ export default function Form() {
                 name="subject-id"
                 placeholder="Unique ID of the Subject. Example: 007"
                 type="text"
+                value={subjectId}
+                onChange={(e) => setSubjectId(e.target.value)}
             />
             <br />
             <GestureSelector gesture={gesture} setGesture={setGesture} />

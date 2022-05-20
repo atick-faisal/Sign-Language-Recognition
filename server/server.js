@@ -17,6 +17,7 @@ io.on("connection", (socket) => {
     socket.on("record", (content) => {
         try {
             let recordRequest = JSON.parse(content);
+            console.log(recordRequest);
             startRecording(
                 recordRequest.duration,
                 recordRequest.subjectId,

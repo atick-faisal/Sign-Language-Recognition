@@ -4,14 +4,17 @@ import { Card, CardSubtitle, CardTitle } from "reactstrap";
 import StatusHeader from "./components/StatusHeader";
 import Form from "./components/Form";
 
+let socket = null;
+
 function App() {
+    // const [socket, setSocket] = useState();
     const [status, setStatus] = useState("Not Connected");
     const [framerate, setFramerate] = useState(0);
     const [hands, setHands] = useState(0);
     const [fingers, setFingers] = useState(0);
 
     useEffect(() => {
-        const socket = io("ws://localhost:8080");
+        socket = io("ws://localhost:8080");
 
         socket.on("status", (content) => {
             setStatus(content);
@@ -31,6 +34,17 @@ function App() {
 
         return () => socket.close();
     }, []);
+
+    const startRecordingData = (duration, subjectId, gesture) => {
+        let requestBody = {
+            duration: duration,
+            subjectId: subjectId,
+            gesture: gesture,
+        };
+        console.log(requestBody);
+        socket.emit("record", JSON.stringify(requestBody));
+    };
+
     return (
         <div className="container w-50">
             <Card className="formContainer">
@@ -46,7 +60,7 @@ function App() {
                     fingers={fingers}
                 />
                 <br />
-                <Form />
+                <Form onSubmit={startRecordingData} />
             </Card>
         </div>
     );
