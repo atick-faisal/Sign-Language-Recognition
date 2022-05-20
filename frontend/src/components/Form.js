@@ -16,7 +16,7 @@ var count = 0;
 
 export default function Form() {
     const [gesture, setGesture] = useState();
-    const [submitBtnColor, setSubmitBtnColor] = useState("success");
+    const [submitBtnColor, setSubmitBtnColor] = useState("primary");
     const [isRecording, setRecording] = useState(false);
     const [preparationProgress, setPreparationProgress] = useState(0);
     const [recordingProgress, setRecordingProgress] = useState(0);
@@ -46,7 +46,7 @@ export default function Form() {
             }, PREPARATION_DURATION);
 
             setTimeout(() => {
-                setSubmitBtnColor("success");
+                setSubmitBtnColor("primary");
                 setButtonText("Start Recording");
                 setRecording(false);
                 clearTimeout(timerId);

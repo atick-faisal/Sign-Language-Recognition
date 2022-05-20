@@ -25,7 +25,7 @@ export default function GestureSelector({ gesture, setGesture }) {
                         value={gesture}
                         onChange={(e) => setGesture(e.target.value)}
                     />
-                    <DropdownToggle color="success" caret>
+                    <DropdownToggle color="primary" caret>
                         Select
                     </DropdownToggle>
                     <DropdownMenu children={null}>

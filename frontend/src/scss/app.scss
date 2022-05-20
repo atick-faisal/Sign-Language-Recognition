@@ -1,4 +1,12 @@
-@import "../../node_modules/bootstrap/scss/bootstrap";
+$theme-colors: (
+  	"primary": #3F51B5,
+	"secondary": #5C6BC0,
+	"warning": #FFCA28,
+  	"danger": #C2185B,
+	"dark": #37474F
+);
+
+@import "~bootstrap/scss/bootstrap";
 
 body {
 	margin: 0;
@@ -15,6 +23,13 @@ body {
 
 .formContainer {
     padding: 2rem;
+}
+
+.header-button {
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	border: 3px solid;
 }
 
 .dropdown-menu {
