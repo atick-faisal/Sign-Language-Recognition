@@ -4,6 +4,7 @@ import { Label, Input } from "reactstrap";
 import { Button } from "reactstrap";
 import GestureSelector from "./GestureSelector";
 import ProgressBar from "./ProgressBar";
+import StatusHeader from "./StatusHeader";
 
 const PROGRESS_UPDATE_INT = 100;
 const PREPARATION_DURATION = 3000;
@@ -67,6 +68,8 @@ export default function Form({ message }) {
                     Leap Motion Controller Status:
                     <b> {message} </b>
                 </CardSubtitle>
+                <br />
+                <StatusHeader />
                 <br />
                 <Label>Subject ID</Label>
                 <Input
