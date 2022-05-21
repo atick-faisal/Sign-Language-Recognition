@@ -1,15 +1,17 @@
 {
-  "name": "server",
-  "version": "1.2.1",
-  "description": "Leap Motion Controller WebSocket Server",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Atick Faisal",
-  "license": "GPL-3.0",
-  "dependencies": {
-    "leapjs": "^1.1.1",
-    "socket.io": "^4.5.0"
-  }
+    "name": "server",
+    "version": "1.2.1",
+    "description": "Leap Motion Controller WebSocket Server",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Atick Faisal",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "bufferutil": "^4.0.6",
+        "leapjs": "^1.1.1",
+        "socket.io": "^4.5.1",
+        "utf-8-validate": "^5.0.9"
+    }
 }
