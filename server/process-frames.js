@@ -1,13 +1,8 @@
 const fs = require("fs");
 const path = require("path");
+const config = require("../config/config");
 
-let columns =
-    "time,rpx,rpy,rpz,lpx,lpy,lpx,rf0x,rf0y,rf0z," +
-    "rf1x,rf1y,rf1z,rf2x,rf2y,rf2z,rf3x,rf3y,rf3z,rf4x,rf4y,rf4z," +
-    "lf0x,lf0y,lf0z,lf1x,lf1y,lf1z,lf2x,lf2y,lf2z,lf3x,lf3y,lf3z," +
-    "lf4x,lf4y,lf4z\n";
-
-let buffer = columns;
+let buffer = config.FEATURE_NAMES;
 
 let timestamp = 0;
 let rightPalmPosition = new Array(3).fill(0);
@@ -19,7 +14,7 @@ let handFlag = true; // rightHand -> true leftHand -> false
 function processFrames(frame) {
     timestamp = frame.timestamp;
     frame.hands.forEach((hand) => {
-        if (hand.type === "right") {
+        if (hand.type === config.HAND_TYPE_RIGHT) {
             rightPalmPosition = [...hand.palmPosition];
             handFlag = true;
         } else {
@@ -62,7 +57,7 @@ function writeBuffer(subjectId, gesture) {
     fs.writeFile(filePath, buffer, (e) => {
         if (e) throw e;
         console.log("file written to disk!");
-        buffer = columns;
+        buffer = config.FEATURE_NAMES;
     });
 }
 

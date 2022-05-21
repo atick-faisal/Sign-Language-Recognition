@@ -1,3 +1,4 @@
+const config = require("../config/config");
 const { processFrames, writeBuffer } = require("./process-frames");
 
 let framerate = 0;
@@ -14,41 +15,44 @@ function startRecording(duration, subjectId, gesture) {
 }
 
 function setLmcCallbacks(controller, io) {
-    controller.on("ready", () => {
-        io.emit("status", "LMC is Ready");
+    controller.on(config.LMC_EVENT_READY, () => {
+        io.emit(config.STATUS_EVENT, "LMC is Ready");
         console.log("lmc is ready ... ");
     });
-    controller.on("connect", () => {
-        io.emit("status", "LMC is Connected");
+    controller.on(config.LMC_EVENT_CONNECT, () => {
+        io.emit(config.STATUS_EVENT, "LMC is Connected");
         console.log("lmc is connected ... ");
     });
-    controller.on("disconnect", () => {
-        io.emit("status", "LMC is Disconnected");
+    controller.on(config.LMC_EVENT_DISCONNECT, () => {
+        io.emit(config.STATUS_EVENT, "LMC is Disconnected");
         console.log("lmc is disconnected! ");
     });
-    controller.on("focus", () => {
-        io.emit("status", "LMC has Focused");
+    controller.on(config.LMC_EVENT_FOCUS, () => {
+        io.emit(config.STATUS_EVENT, "LMC has Focused");
         console.log("lmc has focused ... ");
     });
-    controller.on("blur", () => {
-        io.emit("status", "LMC Vision is Blurry. Please Clean the Surface");
+    controller.on(config.LMC_EVENT_BLUR, () => {
+        io.emit(
+            config.STATUS_EVENT,
+            "LMC Vision is Blurry. Please Clean the Surface"
+        );
         console.log("lmc vision is blurry. please clean the surface ... ");
     });
-    controller.on("streamingStarted", () => {
-        io.emit("status", "Data Streaming has Started");
+    controller.on(config.LMC_EVENT_STREAMING_STARTED, () => {
+        io.emit(config.STATUS_EVENT, "Data Streaming has Started");
         console.log("lmc is streaming data ... ");
         setInterval(() => {
-            io.emit("framerate", framerate);
-            io.emit("hands", hands);
-            io.emit("fingers", fingers);
-        }, 100);
+            io.emit(config.FRAMERATE_EVENT, framerate);
+            io.emit(config.HANDS_EVENT, hands);
+            io.emit(config.FINGERS_EVENT, fingers);
+        }, config.STATUS_UPDATE_INT);
     });
-    controller.on("streamingStopped", () => {
-        io.emit("status", "Data Streaming is Stopped");
+    controller.on(config.LMC_EVENT_STREAMING_STOPPED, () => {
+        io.emit(config.STATUS_EVENT, "Data Streaming is Stopped");
         console.log("lmc stopped streaming data ");
     });
 
-    controller.on("frame", (frame) => {
+    controller.on(config.LMC_EVENT_FRAME, (frame) => {
         framerate = frame.currentFrameRate;
         hands = frame.hands.length;
         fingers = frame.fingers.length;

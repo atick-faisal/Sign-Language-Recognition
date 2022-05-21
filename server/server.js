@@ -10,7 +10,7 @@ const config = require("../config/config");
 const controller = new leapjs.Controller();
 setLmcCallbacks(controller, io);
 
-io.on("connection", (socket) => {
+io.on(config.SOCKET_CONNECTION, (socket) => {
     console.log("a user connected");
     socket.on(config.MESSAGE_EVENT, (content) => {
         console.log(`received message ${content}`);
