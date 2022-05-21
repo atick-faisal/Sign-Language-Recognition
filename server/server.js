@@ -20,11 +20,7 @@ io.on(config.SOCKET_CONNECTION, (socket) => {
         try {
             let recordRequest = JSON.parse(content);
             console.log(recordRequest);
-            startRecording(
-                recordRequest.duration,
-                recordRequest.subjectId,
-                recordRequest.gesture
-            );
+            startRecording(recordRequest.subjectId, recordRequest.gesture);
         } catch (e) {
             console.log("could not parse JSON object");
         }

@@ -3,14 +3,13 @@ import { Label, Input, Collapse } from "reactstrap";
 import { Button } from "reactstrap";
 import GestureSelector from "./GestureSelector";
 import ProgressBar from "./ProgressBar";
+import config from "../config/config";
 
-const PROGRESS_UPDATE_INT = 100;
-const PREPARATION_DURATION = 3000;
-const RECORDING_DURATION = 5000;
-const TOTAL_DURATION = PREPARATION_DURATION + RECORDING_DURATION;
+const TOTAL_DURATION = config.PREPARATION_DURATION + config.RECORDING_DURATION;
 // ... 0.002 is added to compensate for the ui update delay
-const PROGRESS_INCREMENT = PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.002;
-const PREPARATION_UPDATE_COUNT = PREPARATION_DURATION / PROGRESS_UPDATE_INT;
+const PROGRESS_INCREMENT = config.PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.002;
+const PREPARATION_UPDATE_COUNT =
+    config.PREPARATION_DURATION / config.PROGRESS_UPDATE_INT;
 
 var count = 0;
 
@@ -39,15 +38,15 @@ export default function Form({ onSubmit }) {
                     );
                 }
                 count++;
-            }, PROGRESS_UPDATE_INT);
+            }, config.PROGRESS_UPDATE_INT);
 
             setTimeout(() => {
                 setSubmitBtnColor("danger");
                 setButtonText("Perform the Gesture Now!");
-            }, PREPARATION_DURATION);
+            }, config.PREPARATION_DURATION);
 
             setTimeout(() => {
-                onSubmit(RECORDING_DURATION, subjectId, gesture);
+                onSubmit(subjectId, gesture);
                 setSubmitBtnColor("primary");
                 setButtonText("Start Recording");
                 setRecording(false);

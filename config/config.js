@@ -23,6 +23,9 @@ const config = {
     LMC_EVENT_BLUR: "blur",
     LMC_EVENT_FOCUS: "focus",
     LMC_EVENT_FRAME: "frame",
+    PROGRESS_UPDATE_INT: 100,
+    PREPARATION_DURATION: 3000,
+    RECORDING_DURATION: 5000,
 };
 
 module.exports = config;

@@ -6,12 +6,12 @@ let hands = 0;
 let fingers = 0;
 let isRecording = false;
 
-function startRecording(duration, subjectId, gesture) {
+function startRecording(subjectId, gesture) {
     isRecording = true;
     setTimeout(() => {
         isRecording = false;
         writeBuffer(subjectId, gesture);
-    }, duration);
+    }, config.RECORDING_DURATION);
 }
 
 function setLmcCallbacks(controller, io) {

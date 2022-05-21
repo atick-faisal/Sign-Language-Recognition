@@ -11,14 +11,21 @@ let rightHandFingerTips = new Array(15).fill(0);
 let leftHandFingerTips = new Array(15).fill(0);
 let handFlag = true; // rightHand -> true leftHand -> false
 
+function initialize() {
+    rightPalmPosition.fill(0);
+    leftPalmPosition.fill(0);
+    rightHandFingerTips.fill(0);
+    leftHandFingerTips.fill(0);
+}
+
 function processFrames(frame) {
     timestamp = frame.timestamp;
     frame.hands.forEach((hand) => {
         if (hand.type === config.HAND_TYPE_RIGHT) {
-            rightPalmPosition = [...hand.palmPosition];
+            rightPalmPosition = [...hand.palmVelocity];
             handFlag = true;
         } else {
-            leftPalmPosition = [...hand.palmPosition];
+            leftPalmPosition = [...hand.palmVelocity];
             handFlag = false;
         }
     });
@@ -58,6 +65,7 @@ function writeBuffer(subjectId, gesture) {
         if (e) throw e;
         console.log("file written to disk!");
         buffer = config.FEATURE_NAMES;
+        initialize();
     });
 }
 
