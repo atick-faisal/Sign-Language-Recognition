@@ -61,7 +61,10 @@ function processFrames(frame, io) {
     );
 
     dataBuffer = dataBuffer.append([newData], [dataBuffer.shape[0]]);
-    if (frame.hands.length > 0) io.emit("inference", newData.join());
+    if (frame.hands.length > 0) {
+        console.log("sending");
+        io.emit("inference", newData.join());
+    }
 
     // buffer +=
     //     timestamp.toString() +

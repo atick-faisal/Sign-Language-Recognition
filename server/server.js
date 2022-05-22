@@ -1,11 +1,8 @@
-const http = require("http");
-const express = require("express");
-const { Server } = require("socket.io");
 const leapjs = require("leapjs");
-
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const server = require("http").createServer();
+const io = require("socket.io")(server, {
+    cors: { origin: "*" },
+});
 
 const { setLmcCallbacks, startRecording } = require("./lmc");
 const config = require("../config/config");
