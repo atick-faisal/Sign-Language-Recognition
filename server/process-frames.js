@@ -1,8 +1,15 @@
 const fs = require("fs");
 const path = require("path");
+const dfd = require("danfojs-node");
 const config = require("../config/config");
 
 let buffer = config.FEATURE_NAMES;
+let dataBuffer = new dfd.DataFrame(
+    [Array(config.FEATURE_NAMES.length).fill(0)],
+    {
+        columns: config.FEATURE_NAMES,
+    }
+);
 
 let timestamp = 0;
 let rightPalmPosition = new Array(3).fill(0);
@@ -22,10 +29,15 @@ function processFrames(frame) {
     timestamp = frame.timestamp;
     frame.hands.forEach((hand) => {
         if (hand.type === config.HAND_TYPE_RIGHT) {
-            rightPalmPosition = [...hand.palmVelocity];
+            rightPalmPosition[0] = hand.palmPosition[0];
+            rightPalmPosition[1] = hand.palmPosition[1];
+            rightPalmPosition[2] = hand.palmPosition[2];
             handFlag = true;
         } else {
-            leftPalmPosition = [...hand.palmVelocity];
+            leftPalmPosition[0] = hand.palmPosition[0];
+            leftPalmPosition[1] = hand.palmPosition[1];
+            leftPalmPosition[2] = hand.palmPosition[2];
+            // leftPalmPosition = [...hand.palmVelocity];
             handFlag = false;
         }
     });
@@ -41,17 +53,29 @@ function processFrames(frame) {
         }
     });
 
-    buffer +=
-        timestamp.toString() +
-        "," +
-        rightPalmPosition.join() +
-        "," +
-        leftPalmPosition.join() +
-        "," +
-        rightHandFingerTips.join() +
-        "," +
-        leftHandFingerTips.join() +
-        "\n";
+    dataBuffer = dataBuffer.append(
+        [
+            [timestamp].concat(
+                rightPalmPosition,
+                leftPalmPosition,
+                rightHandFingerTips,
+                leftHandFingerTips
+            ),
+        ],
+        [dataBuffer.shape[0]]
+    );
+
+    // buffer +=
+    //     timestamp.toString() +
+    //     "," +
+    //     rightPalmPosition.join() +
+    //     "," +
+    //     leftPalmPosition.join() +
+    //     // "," +
+    //     // rightHandFingerTips.join() +
+    //     // "," +
+    //     // leftHandFingerTips.join() +
+    //     "\n";
 }
 
 function writeBuffer(subjectId, gesture) {
@@ -61,12 +85,20 @@ function writeBuffer(subjectId, gesture) {
     if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir, { recursive: true });
     }
-    fs.writeFile(filePath, buffer, (e) => {
-        if (e) throw e;
-        console.log("file written to disk!");
-        buffer = config.FEATURE_NAMES;
-        initialize();
-    });
+    dfd.toCSV(dataBuffer, { filePath: filePath });
+    dataBuffer = new dfd.DataFrame(
+        [Array(config.FEATURE_NAMES.length).fill(0)],
+        {
+            columns: config.FEATURE_NAMES,
+        }
+    );
+
+    // fs.writeFile(filePath, buffer, (e) => {
+    //     if (e) throw e;
+    //     console.log("file written to disk!");
+    //     buffer = config.FEATURE_NAMES;
+    //     initialize();
+    // });
 }
 
 module.exports = { processFrames, writeBuffer };
