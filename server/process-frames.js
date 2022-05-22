@@ -25,44 +25,49 @@ function initialize() {
     leftHandFingerTips.fill(0);
 }
 
-function processFrames(frame, io) {
-    timestamp = frame.timestamp;
-    frame.hands.forEach((hand) => {
-        if (hand.type === config.HAND_TYPE_RIGHT) {
-            rightPalmPosition[0] = hand.palmPosition[0];
-            rightPalmPosition[1] = hand.palmPosition[1];
-            rightPalmPosition[2] = hand.palmPosition[2];
-            handFlag = true;
-        } else {
-            leftPalmPosition[0] = hand.palmPosition[0];
-            leftPalmPosition[1] = hand.palmPosition[1];
-            leftPalmPosition[2] = hand.palmPosition[2];
-            // leftPalmPosition = [...hand.palmVelocity];
-            handFlag = false;
-        }
-    });
-    frame.fingers.forEach((finger) => {
-        if (handFlag) {
-            rightHandFingerTips[finger.type * 3] = finger.tipPosition[0];
-            rightHandFingerTips[finger.type * 3 + 1] = finger.tipPosition[1];
-            rightHandFingerTips[finger.type * 3 + 2] = finger.tipPosition[2];
-        } else {
-            leftHandFingerTips[finger.type * 3] = finger.tipPosition[0];
-            leftHandFingerTips[finger.type * 3 + 1] = finger.tipPosition[1];
-            leftHandFingerTips[finger.type * 3 + 2] = finger.tipPosition[2];
-        }
-    });
-
-    let newData = [timestamp].concat(
-        rightPalmPosition,
-        leftPalmPosition,
-        rightHandFingerTips,
-        leftHandFingerTips
-    );
-
-    dataBuffer = dataBuffer.append([newData], [dataBuffer.shape[0]]);
+function processFrames(frame, io, isRecording) {
     if (frame.hands.length > 0) {
-        console.log("sending");
+        timestamp = frame.timestamp;
+        frame.hands.forEach((hand) => {
+            if (hand.type === config.HAND_TYPE_RIGHT) {
+                rightPalmPosition[0] = hand.palmPosition[0];
+                rightPalmPosition[1] = hand.palmPosition[1];
+                rightPalmPosition[2] = hand.palmPosition[2];
+                handFlag = true;
+            } else {
+                leftPalmPosition[0] = hand.palmPosition[0];
+                leftPalmPosition[1] = hand.palmPosition[1];
+                leftPalmPosition[2] = hand.palmPosition[2];
+                // leftPalmPosition = [...hand.palmVelocity];
+                handFlag = false;
+            }
+        });
+        frame.fingers.forEach((finger) => {
+            if (handFlag) {
+                rightHandFingerTips[finger.type * 3] = finger.tipPosition[0];
+                rightHandFingerTips[finger.type * 3 + 1] =
+                    finger.tipPosition[1];
+                rightHandFingerTips[finger.type * 3 + 2] =
+                    finger.tipPosition[2];
+            } else {
+                leftHandFingerTips[finger.type * 3] = finger.tipPosition[0];
+                leftHandFingerTips[finger.type * 3 + 1] = finger.tipPosition[1];
+                leftHandFingerTips[finger.type * 3 + 2] = finger.tipPosition[2];
+            }
+        });
+
+        let newData = [timestamp].concat(
+            rightPalmPosition,
+            leftPalmPosition,
+            rightHandFingerTips,
+            leftHandFingerTips
+        );
+
+        if (isRecording) {
+            dataBuffer = dataBuffer.append([newData], [dataBuffer.shape[0]]);
+            console.log(newData);
+        }
+
         io.emit("inference", newData.join());
     }
 

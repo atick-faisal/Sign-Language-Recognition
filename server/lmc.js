@@ -57,13 +57,7 @@ function setLmcCallbacks(controller, io) {
         framerate = frame.currentFrameRate;
         hands = frame.hands.length;
         fingers = frame.fingers.length;
-        if (isRecording) {
-            processFrames(frame, io);
-            if (frame.hands.length > 0) {
-                console.log(`${count} ${frame.hands[0].palmPosition[2]}`);
-                count++;
-            }
-        }
+        processFrames(frame, io, isRecording);
     });
 
     controller.connect();
