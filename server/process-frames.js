@@ -92,6 +92,7 @@ function writeBuffer(subjectId, gesture) {
             columns: config.FEATURE_NAMES,
         }
     );
+    console.log(`recording saved: ${filePath}`);
 
     // fs.writeFile(filePath, buffer, (e) => {
     //     if (e) throw e;
