@@ -25,7 +25,7 @@ function initialize() {
     leftHandFingerTips.fill(0);
 }
 
-function processFrames(frame) {
+function processFrames(frame, io) {
     timestamp = frame.timestamp;
     frame.hands.forEach((hand) => {
         if (hand.type === config.HAND_TYPE_RIGHT) {
@@ -53,17 +53,15 @@ function processFrames(frame) {
         }
     });
 
-    dataBuffer = dataBuffer.append(
-        [
-            [timestamp].concat(
-                rightPalmPosition,
-                leftPalmPosition,
-                rightHandFingerTips,
-                leftHandFingerTips
-            ),
-        ],
-        [dataBuffer.shape[0]]
+    let newData = [timestamp].concat(
+        rightPalmPosition,
+        leftPalmPosition,
+        rightHandFingerTips,
+        leftHandFingerTips
     );
+
+    dataBuffer = dataBuffer.append([newData], [dataBuffer.shape[0]]);
+    if (frame.hands.length > 0) io.emit("inference", newData.join());
 
     // buffer +=
     //     timestamp.toString() +
