@@ -41,12 +41,12 @@ export default function Form({ onSubmit }) {
             }, config.PROGRESS_UPDATE_INT);
 
             setTimeout(() => {
+                onSubmit(subjectId, gesture);
                 setSubmitBtnColor("danger");
                 setButtonText("Perform the Gesture Now!");
             }, config.PREPARATION_DURATION);
 
             setTimeout(() => {
-                onSubmit(subjectId, gesture);
                 setSubmitBtnColor("primary");
                 setButtonText("Start Recording");
                 setRecording(false);
