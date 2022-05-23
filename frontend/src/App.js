@@ -1,9 +1,10 @@
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
-import { Card, CardSubtitle, CardTitle } from "reactstrap";
+import { Card, CardSubtitle, CardTitle, Collapse } from "reactstrap";
 import StatusHeader from "./components/StatusHeader";
 import Form from "./components/Form";
 import config from "./config/config";
+import ToggleButton from "./components/ToggleButton";
 
 let socket = null;
 
@@ -12,6 +13,7 @@ function App() {
     const [framerate, setFramerate] = useState(0);
     const [hands, setHands] = useState(0);
     const [fingers, setFingers] = useState(0);
+    const [mode, setMode] = useState("collection");
 
     useEffect(() => {
         socket = io(`ws://localhost:${config.PORT}`);
@@ -47,7 +49,11 @@ function App() {
     return (
         <div className="container w-50">
             <Card className="formContainer">
-                <CardTitle tag="h3">Data Collector</CardTitle>
+                <ToggleButton mode={mode} setMode={setMode} />
+                <br />
+                <CardTitle className="title" color="primary">
+                    {mode.toUpperCase()}
+                </CardTitle>
                 <CardSubtitle className="mb-2 text-muted" tag="h6">
                     Leap Motion Controller Status:
                     <b> {status} </b>
@@ -59,7 +65,9 @@ function App() {
                     fingers={fingers}
                 />
                 <br />
-                <Form onSubmit={startRecordingData} />
+                <Collapse isOpen={mode === "collection"}>
+                    <Form onSubmit={startRecordingData} />
+                </Collapse>
             </Card>
         </div>
     );
