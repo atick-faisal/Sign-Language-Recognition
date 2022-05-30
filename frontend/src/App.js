@@ -5,6 +5,7 @@ import StatusHeader from "./components/StatusHeader";
 import Form from "./components/Form";
 import config from "./config/config";
 import ToggleButton from "./components/ToggleButton";
+import Prediction from "./components/Prediction";
 
 let socket = null;
 
@@ -67,6 +68,9 @@ function App() {
                 <br />
                 <Collapse isOpen={mode === "collection"}>
                     <Form onSubmit={startRecordingData} />
+                </Collapse>
+                <Collapse isOpen={mode !== "collection"}>
+                    <Prediction prediction="Predicting ... " />
                 </Collapse>
             </Card>
         </div>

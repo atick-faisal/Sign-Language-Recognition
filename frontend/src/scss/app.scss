@@ -23,7 +23,13 @@ body {
 
 .title {
 	font-weight: 300;
-	font-size: 2rem;
+	font-size: 1.5rem;
+	color: $dark;
+}
+
+.prediction {
+	font-weight: 100;
+	font-size: 3rem;
 	color: $dark;
 }
 
