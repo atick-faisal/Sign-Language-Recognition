@@ -15,7 +15,7 @@ function App() {
     const [hands, setHands] = useState(0);
     const [fingers, setFingers] = useState(0);
     const [mode, setMode] = useState("collection");
-    const [prediction, setPrediction] = useState("Predicting ... ");
+    const [prediction, setPrediction] = useState("Waiting for Hand ... ");
 
     useEffect(() => {
         socket = io(`ws://localhost:${config.PORT}`);
