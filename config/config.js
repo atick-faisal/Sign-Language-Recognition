@@ -6,6 +6,7 @@ const config = {
     FRAMERATE_EVENT: "dev.atick.slr.framerate",
     HANDS_EVENT: "dev.atick.slr.hands",
     FINGERS_EVENT: "dev.atick.slr.fingers",
+    MODEL_PREDICTION: "dev.atick.slr.model.prediction",
     PREDICTION_EVENT: "dev.atick.slr.prediction",
     STATUS_UPDATE_INT: 100,
     HAND_TYPE_RIGHT: "right",
