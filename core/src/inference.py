@@ -46,7 +46,7 @@ FEATURE_NAMES = [
     "lf4z",
 ]
 
-GESTURES = ["One", "Two"]
+GESTURES = ["Fist", "Palm"]
 inference_started = False
 
 sio = socketio.Client()
