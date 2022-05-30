@@ -15,6 +15,7 @@ function App() {
     const [hands, setHands] = useState(0);
     const [fingers, setFingers] = useState(0);
     const [mode, setMode] = useState("collection");
+    const [prediction, setPrediction] = useState("Predicting ... ");
 
     useEffect(() => {
         socket = io(`ws://localhost:${config.PORT}`);
@@ -33,6 +34,10 @@ function App() {
 
         socket.on(config.FINGERS_EVENT, (content) => {
             setFingers(content);
+        });
+
+        socket.on(config.PREDICTION_EVENT, (content) => {
+            setPrediction(content);
         });
 
         return () => socket.close();
@@ -70,7 +75,7 @@ function App() {
                     <Form onSubmit={startRecordingData} />
                 </Collapse>
                 <Collapse isOpen={mode !== "collection"}>
-                    <Prediction prediction="Predicting ... " />
+                    <Prediction prediction={prediction} />
                 </Collapse>
             </Card>
         </div>
