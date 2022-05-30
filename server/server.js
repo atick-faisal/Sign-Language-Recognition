@@ -25,6 +25,10 @@ io.on(config.SOCKET_CONNECTION, (socket) => {
             console.log("could not parse JSON object");
         }
     });
+
+    socket.on(config.MODEL_PREDICTION, (content) => {
+        io.emit(config.PREDICTION_EVENT, content);
+    });
 });
 
 server.listen(config.PORT, () => {
