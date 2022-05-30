@@ -38,7 +38,6 @@ function processFrames(frame, io, isRecording) {
                 leftPalmPosition[0] = hand.palmPosition[0];
                 leftPalmPosition[1] = hand.palmPosition[1];
                 leftPalmPosition[2] = hand.palmPosition[2];
-                // leftPalmPosition = [...hand.palmVelocity];
                 handFlag = false;
             }
         });
@@ -70,18 +69,6 @@ function processFrames(frame, io, isRecording) {
 
         io.emit("inference", newData.join());
     }
-
-    // buffer +=
-    //     timestamp.toString() +
-    //     "," +
-    //     rightPalmPosition.join() +
-    //     "," +
-    //     leftPalmPosition.join() +
-    //     // "," +
-    //     // rightHandFingerTips.join() +
-    //     // "," +
-    //     // leftHandFingerTips.join() +
-    //     "\n";
 }
 
 function writeBuffer(subjectId, gesture) {
@@ -99,13 +86,6 @@ function writeBuffer(subjectId, gesture) {
         }
     );
     console.log(`recording saved: ${filePath}`);
-
-    // fs.writeFile(filePath, buffer, (e) => {
-    //     if (e) throw e;
-    //     console.log("file written to disk!");
-    //     buffer = config.FEATURE_NAMES;
-    //     initialize();
-    // });
 }
 
 module.exports = { processFrames, writeBuffer };
