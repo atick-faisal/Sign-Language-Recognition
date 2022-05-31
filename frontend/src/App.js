@@ -52,6 +52,15 @@ function App() {
         socket.emit(config.RECORD_EVENT, JSON.stringify(requestBody));
     };
 
+    const discardRecording = (subjectId, gesture) => {
+        let requestBody = {
+            subjectId: subjectId,
+            gesture: gesture,
+        };
+        console.log(requestBody);
+        socket.emit(config.DISCARD_EVENT, JSON.stringify(requestBody));
+    };
+
     return (
         <div className="container w-50">
             <Card className="formContainer">
@@ -72,7 +81,10 @@ function App() {
                 />
                 <br />
                 <Collapse isOpen={mode === "collection"}>
-                    <Form onSubmit={startRecordingData} />
+                    <Form
+                        onSubmit={startRecordingData}
+                        onDiscard={discardRecording}
+                    />
                 </Collapse>
                 <Collapse isOpen={mode !== "collection"}>
                     <Prediction prediction={prediction} />

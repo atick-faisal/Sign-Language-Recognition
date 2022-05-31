@@ -17,7 +17,13 @@ export default function Confirmation({
             </ModalHeader>
             <ModalBody>{DESCRIPTION}</ModalBody>
             <ModalFooter>
-                <Button color="danger" onClick={onNegativeClick}>
+                <Button
+                    color="danger"
+                    onClick={() => {
+                        onNegativeClick();
+                        toggle();
+                    }}
+                >
                     No, Discard Recording
                 </Button>
                 <Button color="primary" onClick={onPositiveClick}>

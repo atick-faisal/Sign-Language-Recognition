@@ -5,6 +5,7 @@ const io = require("socket.io")(server, {
 });
 
 const { setLmcCallbacks, startRecording } = require("./lmc");
+const { discardLastRecording } = require("./process-frames");
 const config = require("../config/config");
 
 const controller = new leapjs.Controller();
@@ -21,6 +22,19 @@ io.on(config.SOCKET_CONNECTION, (socket) => {
             let recordRequest = JSON.parse(content);
             console.log(recordRequest);
             startRecording(recordRequest.subjectId, recordRequest.gesture);
+        } catch (e) {
+            console.log("could not parse JSON object");
+        }
+    });
+
+    socket.on(config.DISCARD_EVENT, (content) => {
+        try {
+            let discardRequest = JSON.parse(content);
+            console.log(discardRequest);
+            discardLastRecording(
+                discardRequest.subjectId,
+                discardRequest.gesture
+            );
         } catch (e) {
             console.log("could not parse JSON object");
         }

@@ -5,7 +5,6 @@ let framerate = 0;
 let hands = 0;
 let fingers = 0;
 let isRecording = false;
-let count = 0;
 
 function startRecording(subjectId, gesture) {
     isRecording = true;

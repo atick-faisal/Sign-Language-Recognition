@@ -3,7 +3,6 @@ const path = require("path");
 const dfd = require("danfojs-node");
 const config = require("../config/config");
 
-let buffer = config.FEATURE_NAMES;
 let dataBuffer = new dfd.DataFrame(
     [Array(config.FEATURE_NAMES.length).fill(0)],
     {
@@ -17,13 +16,7 @@ let leftPalmPosition = new Array(3).fill(0);
 let rightHandFingerTips = new Array(15).fill(0);
 let leftHandFingerTips = new Array(15).fill(0);
 let handFlag = true; // rightHand -> true leftHand -> false
-
-function initialize() {
-    rightPalmPosition.fill(0);
-    leftPalmPosition.fill(0);
-    rightHandFingerTips.fill(0);
-    leftHandFingerTips.fill(0);
-}
+let filename = "unnamed";
 
 function processFrames(frame, io, isRecording) {
     if (frame.hands.length > 0) {
@@ -72,9 +65,9 @@ function processFrames(frame, io, isRecording) {
 }
 
 function writeBuffer(subjectId, gesture) {
-    let timestamp = new Date().getTime();
+    filename = new Date().getTime();
     let saveDir = path.join("..", "data", "dataset", subjectId, gesture);
-    let filePath = path.join(saveDir, `${timestamp}.csv`);
+    let filePath = path.join(saveDir, `${filename}.csv`);
     if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir, { recursive: true });
     }
@@ -88,4 +81,15 @@ function writeBuffer(subjectId, gesture) {
     console.log(`recording saved: ${filePath}`);
 }
 
-module.exports = { processFrames, writeBuffer };
+function discardLastRecording(subjectId, gesture) {
+    let fileDir = path.join("..", "data", "dataset", subjectId, gesture);
+    let filePath = path.join(fileDir, `${filename}.csv`);
+    try {
+        fs.unlinkSync(filePath);
+        console.log("last recording removed");
+    } catch (e) {
+        console.log("file operation failed!");
+    }
+}
+
+module.exports = { processFrames, writeBuffer, discardLastRecording };

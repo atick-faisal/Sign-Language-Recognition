@@ -14,7 +14,7 @@ const PREPARATION_UPDATE_COUNT =
 
 var count = 0;
 
-export default function Form({ onSubmit }) {
+export default function Form({ onSubmit, onDiscard }) {
     const [subjectId, setSubjectId] = useState("");
     const [gesture, setGesture] = useState("");
     const [submitBtnColor, setSubmitBtnColor] = useState("primary");
@@ -97,7 +97,9 @@ export default function Form({ onSubmit }) {
                 isOpen={modalOpen}
                 toggle={toggleModal}
                 onPositiveClick={toggleModal}
-                onNegativeClick={toggleModal}
+                onNegativeClick={() => {
+                    onDiscard(subjectId, gesture);
+                }}
             />
         </div>
     );
