@@ -4,10 +4,11 @@ import { Button } from "reactstrap";
 import GestureSelector from "./GestureSelector";
 import ProgressBar from "./ProgressBar";
 import config from "../config/config";
+import Confirmation from "./Confirmation";
 
 const TOTAL_DURATION = config.PREPARATION_DURATION + config.RECORDING_DURATION;
-// ... 0.002 is added to compensate for the ui update delay
-const PROGRESS_INCREMENT = config.PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.002;
+// ... 0.001 is added to compensate for the ui update delay
+const PROGRESS_INCREMENT = config.PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.001;
 const PREPARATION_UPDATE_COUNT =
     config.PREPARATION_DURATION / config.PROGRESS_UPDATE_INT;
 
@@ -21,6 +22,11 @@ export default function Form({ onSubmit }) {
     const [preparationProgress, setPreparationProgress] = useState(0);
     const [recordingProgress, setRecordingProgress] = useState(0);
     const [buttonText, setButtonText] = useState("Start Recording");
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setModalOpen((isOpen) => !isOpen);
+    };
 
     const onSubmitClick = () => {
         console.log(isRecording);
@@ -53,6 +59,7 @@ export default function Form({ onSubmit }) {
                 clearTimeout(timerId);
                 setPreparationProgress(0);
                 setRecordingProgress(0);
+                toggleModal();
                 count = 0;
             }, TOTAL_DURATION);
             setRecording(true);
@@ -86,6 +93,12 @@ export default function Form({ onSubmit }) {
                     recordingProgress={recordingProgress}
                 />
             </Collapse>
+            <Confirmation
+                isOpen={modalOpen}
+                toggle={toggleModal}
+                onPositiveClick={toggleModal}
+                onNegativeClick={toggleModal}
+            />
         </div>
     );
 }
