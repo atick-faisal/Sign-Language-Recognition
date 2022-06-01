@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const config = {
     PORT: 8080,
     MESSAGE_EVENT: "dev.atick.slr.message",
@@ -66,4 +68,11 @@ const config = {
     ],
 };
 
-module.exports = config;
+module.exports = function updateConfig(path) {
+    try {
+        let configJson = JSON.stringify(config);
+        fs.writeFileSync(path, configJson);
+    } catch (e) {
+        console.log("error updating config!");
+    }
+};

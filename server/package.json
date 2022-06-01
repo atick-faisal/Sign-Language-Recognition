@@ -4,7 +4,8 @@
     "description": "Leap Motion Controller WebSocket Server",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "node -e 'require(\"../config/updateConfig\")(\"../config/config.json\")' && npm start"
     },
     "author": "Atick Faisal",
     "license": "GPL-3.0",
