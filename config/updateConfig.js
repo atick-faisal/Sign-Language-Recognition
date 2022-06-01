@@ -11,6 +11,7 @@ const config = {
     FINGERS_EVENT: "dev.atick.slr.fingers",
     MODEL_PREDICTION: "dev.atick.slr.model.prediction",
     PREDICTION_EVENT: "dev.atick.slr.prediction",
+    FRAME_EVENT: "dev.atick.slr.frame",
     STATUS_UPDATE_INT: 100,
     HAND_TYPE_RIGHT: "right",
     HAND_TYPE_LEFT: "left",

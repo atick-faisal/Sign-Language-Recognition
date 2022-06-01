@@ -48,7 +48,7 @@ def connect():
     print('connection established')
 
 
-@sio.on("inference")
+@sio.on(config.FRAME_EVENT)
 def my_message(data):
     global inference_started
 

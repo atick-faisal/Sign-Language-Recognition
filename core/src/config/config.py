@@ -1,6 +1,7 @@
 INFERENCE_TIME = 2.0  # ... Segment duration
 HOLD_TIME = 2.0  # ... Time before next prediction session
-MODEL_PREDICTION = "dev.atick.slr.model.prediction"
+PREDICTION_EVENT = "dev.atick.slr.prediction"
+FRAME_EVENT = "dev.atick.slr.frame"
 GESTURES = ["Fist", "Palm"]
 FEATURE_NAMES = [
     "time",

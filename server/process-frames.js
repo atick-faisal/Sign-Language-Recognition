@@ -60,7 +60,7 @@ function processFrames(frame, io, isRecording) {
             console.log(newData);
         }
 
-        io.emit("inference", newData.join());
+        io.emit(config.FRAME_EVENT, newData.join());
     }
 }
 
