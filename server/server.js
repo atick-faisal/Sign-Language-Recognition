@@ -6,7 +6,7 @@ const io = require("socket.io")(server, {
 
 const { setLmcCallbacks, startRecording } = require("./lmc");
 const { discardLastRecording } = require("./process-frames");
-const config = require("../config/config");
+const config = require("./config/config");
 
 const controller = new leapjs.Controller();
 setLmcCallbacks(controller, io);
