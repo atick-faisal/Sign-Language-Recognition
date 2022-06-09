@@ -1,4 +1,4 @@
-INFERENCE_TIME = 2.0  # ... Segment duration
+INFERENCE_TIME = 5.0  # ... Segment duration
 HOLD_TIME = 2.0  # ... Time before next prediction session
 MODEL_PREDICTION = "dev.atick.slr.model.prediction"
 FRAME_EVENT = "dev.atick.slr.frame"
