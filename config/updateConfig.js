@@ -26,7 +26,7 @@ const config = {
     LMC_EVENT_FRAME: "frame",
     PROGRESS_UPDATE_INT: 100,
     PREPARATION_DURATION: 3000,
-    RECORDING_DURATION: 5000,
+    RECORDING_DURATION: 3000,
 
     FEATURE_NAMES: [
         "time",

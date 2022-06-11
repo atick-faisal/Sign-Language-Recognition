@@ -8,7 +8,7 @@ import Confirmation from "./Confirmation";
 
 const TOTAL_DURATION = config.PREPARATION_DURATION + config.RECORDING_DURATION;
 // ... 0.001 is added to compensate for the ui update delay
-const PROGRESS_INCREMENT = config.PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.001;
+const PROGRESS_INCREMENT = config.PROGRESS_UPDATE_INT / TOTAL_DURATION + 0.002;
 const PREPARATION_UPDATE_COUNT =
     config.PREPARATION_DURATION / config.PROGRESS_UPDATE_INT;
 
