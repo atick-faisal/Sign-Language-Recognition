@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 import pandas as pd
 
@@ -35,16 +36,18 @@ def get_projection_image(
 
     img = np.zeros((img_len * 3 - 1, img_len * 3 - 1), dtype="uint8")
 
-    img[rpx, rpy] = 1
-    img[rpy + int(img_len), rpz] = 1
-    img[rpz + int(img_len * 2 - 1), rpx] = 1
+    img[rpx, rpy] = 255
+    img[rpy + int(img_len), rpz] = 255
+    img[rpz + int(img_len * 2 - 1), rpx] = 255
 
-    img[rf0x, rf0y + int(img_len)] = 1
-    img[rf0y + int(img_len), rf0z + int(img_len)] = 1
-    img[rf0z + int(img_len * 2 - 1), rf0x + int(img_len)] = 1
+    img[rf0x, rf0y + int(img_len)] = 255
+    img[rf0y + int(img_len), rf0z + int(img_len)] = 255
+    img[rf0z + int(img_len * 2 - 1), rf0x + int(img_len)] = 255
 
-    img[rf1x, rf1y + int(img_len * 2 - 1)] = 1
-    img[rf1y + int(img_len), rf1z + int(img_len * 2 - 1)] = 1
-    img[rf1z + int(img_len * 2 - 1), rf1x + int(img_len * 2 - 1)] = 1
+    img[rf1x, rf1y + int(img_len * 2 - 1)] = 255
+    img[rf1y + int(img_len), rf1z + int(img_len * 2 - 1)] = 255
+    img[rf1z + int(img_len * 2 - 1), rf1x + int(img_len * 2 - 1)] = 255
+
+    # img = cv2.GaussianBlur(img, (5, 5), 0)
 
     return img
