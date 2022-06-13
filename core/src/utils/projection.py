@@ -60,7 +60,7 @@ def get_projection_image(
     canvas = FigureCanvas(fig)
     ax = fig.gca()
 
-    ax.plot(rpy[10:], rpz[10:], "-k", linewidth=3)
+    ax.plot(rpz[10:], rpx[10:], "-k", linewidth=3)
     ax.axis('off')
     fig.tight_layout()
 

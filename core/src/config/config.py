@@ -7,7 +7,7 @@ INFERENCE_FEATURES = ["rpx", "rpy", "rpz", "drf0x",
                       "drf0y", "drf0z", "drf1x", "drf1y", "drf1z"]
 MODEL_PREDICTION = "dev.atick.slr.model.prediction"
 FRAME_EVENT = "dev.atick.slr.frame"
-GESTURES = ["Good", "Bad", "Deaf", "Hard of Hearing", "Fine", "Hello", "Yes",
+GESTURES = ["Good", "Bad", "Deaf", "Fine", "Hello", "Yes",
             "No", "Please", "Sorry", "Thank You", "Me", "You", "Hungry", "Goodbye"]
 FEATURE_NAMES = [
     "time",
