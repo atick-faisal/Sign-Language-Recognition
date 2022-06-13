@@ -66,7 +66,7 @@ function processFrames(frame, io, isRecording) {
 
 function writeBuffer(subjectId, gesture) {
     filename = new Date().getTime();
-    let saveDir = path.join("..", "data", "dataset", subjectId, gesture);
+    let saveDir = path.join("..", "data", "dataset", "raw", subjectId, gesture);
     let filePath = path.join(saveDir, `${filename}.csv`);
     if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir, { recursive: true });
