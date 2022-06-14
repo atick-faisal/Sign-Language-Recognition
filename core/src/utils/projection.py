@@ -63,7 +63,7 @@ class SpatialProjection():
 
         canvas = FigureCanvas(fig)
         ax = fig.gca()
-        ax.plot(x, y, "-k", linewidth=3)
+        ax.plot(x, y, "-k", linewidth=2)
         ax.axis("off")
         ax.xaxis.set_major_locator(NullLocator())
         ax.yaxis.set_major_locator(NullLocator())
