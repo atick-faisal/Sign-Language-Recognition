@@ -1,9 +1,9 @@
 INFERENCE_TIME = 3.0  # ... Segment duration
 HOLD_TIME = 2.0  # ... Time before next prediction session
 SEGMENT_LEN = 256
-IMG_LEN = 72  # 1/9 of the 224x224 image
-N_CHANNELS = 1
-LEARNING_RATE = 0.0005
+IMG_LEN = 224  # 1/9 of the 224x224 image
+N_CHANNELS = 3
+LEARNING_RATE = 3e-4
 PROJECTION_LANDMARKS = ["rp", "rf0", "rf1"]
 INFERENCE_FEATURES = [
     "rpx",
@@ -18,8 +18,8 @@ INFERENCE_FEATURES = [
 ]
 MODEL_PREDICTION = "dev.atick.slr.model.prediction"
 FRAME_EVENT = "dev.atick.slr.frame"
-GESTURES = ["Good", "Bad", "Deaf", "Fine", "Hello", "Yes",
-            "No", "Please", "Sorry", "Thank You", "Me", "You", "Hungry", "Goodbye"]
+GESTURES = ["Good", "Bad", "Fine", "Hello", "Yes",
+            "No", "Please", "Sorry", "Thank You", "You", "Hungry", "Goodbye"]
 FEATURE_NAMES = [
     "time",
     "rpx",

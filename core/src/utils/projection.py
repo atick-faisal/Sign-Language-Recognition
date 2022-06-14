@@ -6,6 +6,7 @@ import pandas as pd
 
 from random import randint
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.ticker import NullLocator
 from matplotlib.figure import Figure
 
 from .normalize import normalize
@@ -64,7 +65,9 @@ class SpatialProjection():
         ax = fig.gca()
         ax.plot(x, y, "-k", linewidth=3)
         ax.axis("off")
-        fig.tight_layout()
+        ax.xaxis.set_major_locator(NullLocator())
+        ax.yaxis.set_major_locator(NullLocator())
+        # fig.tight_layout()
         canvas.draw()
 
         image = np.frombuffer(canvas.tostring_rgb(), dtype="uint8")
