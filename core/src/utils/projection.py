@@ -1,7 +1,10 @@
+import os
 import cv2
+import config
 import numpy as np
 import pandas as pd
 
+from random import randint
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -9,63 +12,86 @@ from .normalize import normalize
 from .filters import LowPassFilter
 
 
-def get_projection_image(
-    data: pd.DataFrame,
-    img_len: int
-) -> np.ndarray:
+class SpatialProjection():
+    def __init__(
+        self,
+        img_dir: str,
+        img_len: int,
+        polyfit_degree: int = 0
+    ):
+        self.img_dir = img_dir
+        self.img_len = img_len
+        self.polyfit_degree = polyfit_degree
 
-    rpx = LowPassFilter.apply(data["rpx"].to_numpy())
-    rpy = LowPassFilter.apply(data["rpy"].to_numpy())
-    rpz = LowPassFilter.apply(data["rpz"].to_numpy())
+    @staticmethod
+    def __write_image(
+        img: np.ndarray,
+        write_dir: str,
+        plane: str,
+        name: str
+    ):
+        path = os.path.join(write_dir, plane)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        cv2.imwrite(os.path.join(path, name + ".jpg"), img)
 
-    rf0x = LowPassFilter.apply(data["rf0x"].to_numpy())
-    rf0y = LowPassFilter.apply(data["rf0y"].to_numpy())
-    rf0z = LowPassFilter.apply(data["rf0z"].to_numpy())
+    def __get_preocessed_data(
+        self,
+        data: pd.Series
+    ) -> np.ndarray:
+        processed_data = data.to_numpy().ravel()
 
-    rf1x = LowPassFilter.apply(data["rf1x"].to_numpy())
-    rf1y = LowPassFilter.apply(data["rf1y"].to_numpy())
-    rf1z = LowPassFilter.apply(data["rf1z"].to_numpy())
+        if self.polyfit_degree == 0:
+            # ... First few (10) datapoints contains filter artifacts
+            processed_data = LowPassFilter.apply(processed_data)[10:]
+        else:
+            t = np.linspace(0, 1, processed_data.shape[0])
+            f = np.poly1d(np.polyfit(t, processed_data, self.polyfit_degree))
+            processed_data = f(t)
 
-    rpx = (normalize(rpx) * (img_len - 1)).astype("uint8")
-    rpy = (normalize(rpy) * (img_len - 1)).astype("uint8")
-    rpz = (normalize(rpz) * (img_len - 1)).astype("uint8")
+        return processed_data
 
-    rf0x = (normalize(rf0x) * (img_len - 1)).astype("uint8")
-    rf0y = (normalize(rf0y) * (img_len - 1)).astype("uint8")
-    rf0z = (normalize(rf0z) * (img_len - 1)).astype("uint8")
+    def __generate_projection_image(
+        self,
+        x: np.ndarray,
+        y: np.ndarray
+    ) -> np.ndarray:
+        img_len_inch = self.img_len / 100.0  # 100 is the Figure DPI value
+        fig = Figure(figsize=(img_len_inch, img_len_inch))
+        width, height = fig.get_size_inches() * fig.get_dpi()
 
-    rf1x = (normalize(rf1x) * (img_len - 1)).astype("uint8")
-    rf1y = (normalize(rf1y) * (img_len - 1)).astype("uint8")
-    rf1z = (normalize(rf1z) * (img_len - 1)).astype("uint8")
+        canvas = FigureCanvas(fig)
+        ax = fig.gca()
+        ax.plot(x, y, "-k", linewidth=3)
+        ax.axis("off")
+        fig.tight_layout()
+        canvas.draw()
 
-    # img = np.zeros((img_len * 3 - 1, img_len * 3 - 1), dtype="uint8")
+        image = np.frombuffer(canvas.tostring_rgb(), dtype="uint8")
+        return image.reshape(int(height), int(width), 3)
 
-    # img[rpx, rpy] = 255
-    # img[rpy + int(img_len), rpz] = 255
-    # img[rpz + int(img_len * 2 - 1), rpx] = 255
+    def get_projection_images(
+        self,
+        data: pd.DataFrame,
+        subject: str,
+        gesture: str,
+        write_image: bool = False
+    ) -> list[np.ndarray]:
+        landmark = data.columns[0][:-1]
+        name = str(randint(100000, 999999))
+        write_dir = os.path.join(self.img_dir, subject, gesture, landmark)
 
-    # img[rf0x, rf0y + int(img_len)] = 255
-    # img[rf0y + int(img_len), rf0z + int(img_len)] = 255
-    # img[rf0z + int(img_len * 2 - 1), rf0x + int(img_len)] = 255
+        x = self.__get_preocessed_data(data.filter(regex="x"))
+        y = self.__get_preocessed_data(data.filter(regex="y"))
+        z = self.__get_preocessed_data(data.filter(regex="z"))
 
-    # img[rf1x, rf1y + int(img_len * 2 - 1)] = 255
-    # img[rf1y + int(img_len), rf1z + int(img_len * 2 - 1)] = 255
-    # img[rf1z + int(img_len * 2 - 1), rf1x + int(img_len * 2 - 1)] = 255
+        img_xy = self.__generate_projection_image(x, y)
+        img_yz = self.__generate_projection_image(y, z)
+        img_zx = self.__generate_projection_image(z, x)
 
-    # img = cv2.GaussianBlur(img, (5, 5), 0)
+        if write_image == True:
+            self.__write_image(img_xy, write_dir, "xy", name)
+            self.__write_image(img_yz, write_dir, "yz", name)
+            self.__write_image(img_zx, write_dir, "zx", name)
 
-    fig = Figure(figsize=(2.24, 2.24))
-
-    width, height = fig.get_size_inches() * fig.get_dpi()
-    canvas = FigureCanvas(fig)
-    ax = fig.gca()
-
-    ax.plot(rpz[10:], rpx[10:], "-k", linewidth=3)
-    ax.axis('off')
-    fig.tight_layout()
-
-    canvas.draw()       # draw the canvas, cache the renderer
-
-    image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8')
-
-    return image.reshape(int(height), int(width), 3)
+        return [img_xy, img_yz, img_zx]
