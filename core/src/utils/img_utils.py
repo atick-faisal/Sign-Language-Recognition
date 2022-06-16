@@ -13,7 +13,7 @@ def create_img_grid(
     img_size = math.floor(img_grid_size / grid_len)
     img_shape = (img_grid_size, img_grid_size, 3) if rgb_image else (
         img_grid_size, img_grid_size, 1)
-    img = np.zeros(img_shape)
+    img = np.zeros(img_shape, dtype="uint8")
 
     counter = 0
     for i in range(grid_len):
