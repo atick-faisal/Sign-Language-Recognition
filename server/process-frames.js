@@ -82,7 +82,7 @@ function writeBuffer(subjectId, gesture) {
 }
 
 function discardLastRecording(subjectId, gesture) {
-    let fileDir = path.join("..", "data", "dataset", subjectId, gesture);
+    let fileDir = path.join("..", "data", "dataset", "raw", subjectId, gesture);
     let filePath = path.join(fileDir, `${filename}.csv`);
     try {
         fs.unlinkSync(filePath);
