@@ -31,3 +31,5 @@ def create_img_grid(
             counter = counter + 1
 
     return img
+
+
