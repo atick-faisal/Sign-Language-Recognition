@@ -55,10 +55,11 @@ class SpatialProjection():
     def __generate_projection_image(
         self,
         x: np.ndarray,
-        y: np.ndarray
+        y: np.ndarray,
+        dpi: int = 100.0
     ) -> np.ndarray:
-        img_len_inch = self.img_len / 100.0  # 100 is the Figure DPI value
-        fig = Figure(figsize=(img_len_inch, img_len_inch))
+        img_len_inch = float(self.img_len) / float(dpi)
+        fig = Figure(figsize=(img_len_inch, img_len_inch), dpi=dpi)
         width, height = fig.get_size_inches() * fig.get_dpi()
 
         canvas = FigureCanvas(fig)

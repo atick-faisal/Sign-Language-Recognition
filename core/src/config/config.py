@@ -1,7 +1,7 @@
 INFERENCE_TIME = 3.0  # ... Segment duration
 HOLD_TIME = 2.0  # ... Time before next prediction session
 SEGMENT_LEN = 256
-IMG_LEN = 224  # 1/9 of the 224x224 image
+IMG_LEN = 160  # 1/9 of the 224x224 image
 N_CHANNELS = 1
 LEARNING_RATE = 0.0003
 PROJECTION_LANDMARKS = ["rp", "rf0", "rf1"]

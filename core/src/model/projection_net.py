@@ -61,15 +61,15 @@ class ProjectionNet():
         inputs = []
         features = []
 
-        for _ in range(n_projections):
-            input_2d, features_2d = self.conv_block_2d()
-            inputs.append(input_2d)
-            features.append(features_2d)
-
         for _ in range(n_channels):
             input_1d, features_1d = self.conv_block_1d()
             inputs.append(input_1d)
             features.append(features_1d)
+
+        for _ in range(n_projections):
+            input_2d, features_2d = self.conv_block_2d()
+            inputs.append(input_2d)
+            features.append(features_2d)
 
         x = layers.concatenate(features, axis=-1)
         x = self.dropout(x)

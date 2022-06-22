@@ -12,7 +12,7 @@ def extract_flxion_features(
     for i in range(5):
         df = np.sqrt(
             np.power(data[f"{hand}f{i}x"] - data[f"{hand}px"], 2) +
-            np.power(data[f"{hand}f{i}y"] - data[f"{hand}py"], 2) +
+            # np.power(data[f"{hand}f{i}y"] - data[f"{hand}py"], 2) +
             np.power(data[f"{hand}f{i}z"] - data[f"{hand}pz"], 2)
         )
 
