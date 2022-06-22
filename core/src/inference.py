@@ -17,8 +17,8 @@ inference_started = False
 
 sio = socketio.Client()
 # model = joblib.load("../model/knn-clf.joblib")
-model = load_model("../model/stack_cnn")
-scaler = joblib.load("../model/scaler.joblib")
+model = load_model("../models/stack_cnn")
+scaler = joblib.load("../models/scaler.joblib")
 # buffer = pd.DataFrame([], columns=config.FEATURE_NAMES)
 buffer = []
 

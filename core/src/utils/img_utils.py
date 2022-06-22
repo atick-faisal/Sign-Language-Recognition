@@ -33,3 +33,7 @@ def create_img_grid(
     return img
 
 
+def create_img_stack(
+    images: list[np.ndarray]
+) -> np.ndarray:
+    return np.stack(images, axis=-1)
