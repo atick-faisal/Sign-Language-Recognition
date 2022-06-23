@@ -1,8 +1,8 @@
 INFERENCE_TIME = 3.0  # ... Segment duration
 HOLD_TIME = 2.0  # ... Time before next prediction session
-SEGMENT_LEN = 256
+SEGMENT_LEN = 150
 IMG_LEN = 160  # 1/9 of the 224x224 image
-N_CHANNELS = 1
+N_CHANNELS = 3
 LEARNING_RATE = 0.0003
 PROJECTION_LANDMARKS = ["rp", "rf0", "rf1"]
 INFERENCE_FEATURES = [
@@ -59,3 +59,10 @@ FEATURE_NAMES = [
     "lf4y",
     "lf4z",
 ]
+
+# ... Scaling distance features
+DIST_FEATURES = ["drf0x", "drf0y", "drf0z", "drf1x", "drf1y", "drf1z"]
+SCALER_MIN = [-108.80884021,  -72.35677707,  -75.40455647, -105.06504236,
+              -91.38009326, -110.18809635]
+SCALER_RANGE = [209.08497391, 178.58391672, 169.26662137, 174.0735184,
+                194.11552266, 166.07192772]

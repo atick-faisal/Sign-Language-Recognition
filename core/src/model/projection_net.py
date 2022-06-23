@@ -42,27 +42,27 @@ class ProjectionNet():
         return inputs, output
 
     def conv_block_2d(self):
-        # preprocess = layers.experimental.preprocessing.Rescaling(
-        #     scale=1.0/127.5,
-        #     offset=-1
-        # )
-        # inputs = layers.Input(shape=(self.img_size, self.img_size, 3))
-        # x = preprocess(inputs)
-        # x = self.base_model(x, training=False)
-        # output = layers.GlobalAveragePooling2D()(x)
-
+        preprocess = layers.experimental.preprocessing.Rescaling(
+            scale=1.0/127.5,
+            offset=-1
+        )
         inputs = layers.Input(shape=(self.img_size, self.img_size, 3))
-        x = layers.Conv2D(16, (3, 3), activation="relu")(inputs)
-        x = layers.MaxPool2D((2, 2))(x)
-        x = layers.Conv2D(16, (3, 3), activation="relu")(inputs)
-        x = layers.MaxPool2D((2, 2))(x)
-        x = layers.Conv2D(32, (3, 3), activation="relu")(inputs)
-        x = layers.MaxPool2D((2, 2))(x)
-        x = layers.Conv2D(32, (3, 3), activation="relu")(inputs)
-        x = layers.MaxPool2D((2, 2))(x)
-        x = layers.Dropout(0.2)(x)
-        x = layers.Flatten()(x)
-        output = layers.Dense(128, activation="relu")(x)
+        x = preprocess(inputs)
+        x = self.base_model(x, training=False)
+        output = layers.GlobalAveragePooling2D()(x)
+
+        # inputs = layers.Input(shape=(self.img_size, self.img_size, 3))
+        # x = layers.Conv2D(16, (3, 3), activation="relu")(inputs)
+        # x = layers.MaxPool2D((2, 2))(x)
+        # x = layers.Conv2D(16, (3, 3), activation="relu")(inputs)
+        # x = layers.MaxPool2D((2, 2))(x)
+        # x = layers.Conv2D(32, (3, 3), activation="relu")(inputs)
+        # x = layers.MaxPool2D((2, 2))(x)
+        # x = layers.Conv2D(32, (3, 3), activation="relu")(inputs)
+        # x = layers.MaxPool2D((2, 2))(x)
+        # x = layers.Dropout(0.2)(x)
+        # x = layers.Flatten()(x)
+        # output = layers.Dense(128, activation="relu")(x)
 
         return inputs, output
 
