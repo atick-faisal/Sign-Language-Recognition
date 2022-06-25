@@ -40,10 +40,7 @@ class ConvNet1D(tf.keras.layers.Layer):
         multiplier = 1
         for i in range(1, self.n_layers + 1):
             x = self.conv_layers[i - 1](x)
-
-            if training:
-                x = self.bn_layers[i - 1](x)
-
+            x = self.bn_layers[i - 1](x)
             x = tf.keras.activations.selu(x)
 
             if i % 2 == 0:
