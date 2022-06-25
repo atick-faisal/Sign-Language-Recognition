@@ -61,15 +61,17 @@ class ProjectionNet(tf.keras.Model):
             )
 
         x = tf.keras.layers.concatenate(features, axis=-1)
+        x = self.dropout(x)
 
-        if training:
-            x = self.dropout(x)
+        # if training:
+        #     x = self.dropout(x)
 
-        x = self.mlp1(x)
+        # x = self.mlp1(x)
 
-        if training:
-            x = self.dropout(x)
+        # if training:
+        #     x = self.dropout(x)
 
+        x = self.dropout(x)
         output = self.mlp2(x)
 
         return output
