@@ -1,12 +1,12 @@
 import os
 import sys
 import joblib
-import config
 import numpy as np
 import pandas as pd
 
 import tensorflow as tf
 
+from config import Config
 from utils import (
     parse_args,
     get_train_test_set,
@@ -38,39 +38,39 @@ def main(
     print("-" * 70 + "\nGenerating Dataset\n" + "-" * 70)
     sp_augment = [
         SpatialProjection(
-            img_len=config.IMG_LEN,
+            img_len=Config.IMG_LEN,
             polyfit_degree=degree,
-            linewidth=config.LINE_WIDTH
+            linewidth=Config.LINE_WIDTH
         )
-        for degree in config.AUGMENTATION_LEVELS]
+        for degree in Config.AUGMENTATION_LEVELS]
 
     (X_train, X_test, y_train, y_test) = get_train_test_set(
         data_dir=data_dir,
         subjects=subjects,
-        gestures=config.GESTURES,
-        feature_landmarks=config.PROJECTION_LANDMARKS,
+        gestures=Config.GESTURES,
+        feature_landmarks=Config.PROJECTION_LANDMARKS,
         augmentation_levels=sp_augment
     )
 
     # ... Model Initialization
     base_model = tf.keras.applications.MobileNetV2(
-        input_shape=(config.IMG_LEN, config.IMG_LEN, config.N_CHANNELS),
+        input_shape=(Config.IMG_LEN, Config.IMG_LEN, Config.N_CHANNELS),
         include_top=False,
         weights="imagenet"
     )
 
     model = ProjectionNet(
-        img_size=config.IMG_LEN,
-        segment_len=config.SEGMENT_LEN,
-        n_classes=len(config.GESTURES),
+        img_size=Config.IMG_LEN,
+        segment_len=Config.SEGMENT_LEN,
+        n_classes=len(Config.GESTURES),
         base_model=base_model
     ).get_model(
-        n_projections=config.N_CHANNELS,
-        n_channels=len(config.DIST_FEATURES)
+        n_projections=Config.N_CHANNELS,
+        n_channels=len(Config.DIST_FEATURES)
     )
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=config.LEARNING_RATE),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=Config.LEARNING_RATE),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
         metrics=['accuracy']
     )
@@ -80,7 +80,7 @@ def main(
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
             monitor="val_loss",
-            patience=config.PATIENCE,
+            patience=Config.PATIENCE,
             restore_best_weights=True
         )
     ]
@@ -89,8 +89,8 @@ def main(
         x=X_train,
         y=y_train,
         validation_data=(X_test, y_test),
-        batch_size=config.BATCH_SIZE,
-        epochs=config.MAX_EPOCHS,
+        batch_size=Config.BATCH_SIZE,
+        epochs=Config.MAX_EPOCHS,
         verbose=1,
         callbacks=callbacks
     )
@@ -120,8 +120,7 @@ def main(
     if accuarcy > best_accuracy:
         create_if_not_exists(results_dir)
         model.save(os.path.join(results_dir, "model"))
-        # joblib.dump(config, os.path.join(
-        #     model_dir, f"{exp_name}_config.joblib"))
+        joblib.dump(Config, os.path.join(results_dir, "config.joblib"))
         joblib.dump(history, os.path.join(results_dir, "history.joblib"))
         joblib.dump(y_test, os.path.join(results_dir, "y_true.joblib"))
         joblib.dump(y_pred, os.path.join(results_dir, "y_pred.joblib"))

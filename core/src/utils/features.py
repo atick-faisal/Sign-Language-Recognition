@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.signal import resample
-import config
+from config import Config
 
 
 def extract_flxion_features(
@@ -17,9 +17,9 @@ def extract_flxion_features(
     data[f"d{hand}f1y"] = data[f"{hand}f1y"] - data[f"{hand}py"]
     data[f"d{hand}f1z"] = data[f"{hand}f1z"] - data[f"{hand}pz"]
 
-    data = data[config.DIST_FEATURES]
+    data = data[Config.DIST_FEATURES]
 
     # ... Min-Max scaling of distance features
-    data = (data - config.SCALER_MIN) / config.SCALER_RANGE
+    data = (data - Config.SCALER_MIN) / Config.SCALER_RANGE
 
     return resample(data.to_numpy(), segment_length, axis=0)
