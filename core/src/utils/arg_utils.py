@@ -12,9 +12,10 @@ def parse_args(argv) -> List[str]:
 
     try:
         opts, _ = getopt.getopt(
-            argv[1:], "hd:m:", ["help", "exp_name=", "data_dir=", "model_dir="])
+            argv[1:], "he:d:m:", ["help", "exp_name=", "data_dir=", "model_dir="])
     except:
-        return arg_data_dir, arg_model_dir
+        print("parsing error!")
+        return arg_exp_name, arg_data_dir, arg_model_dir
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
