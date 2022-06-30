@@ -27,6 +27,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
 
 def main(
+    exp_name: str,
     data_dir: str,
     model_dir: str
 ):
@@ -110,22 +111,28 @@ def main(
     print("-" * 70 + "\nSaving Results ... \n" + "-" * 70)
     best_accuracy = 0
     try:
-        best_accuracy = joblib.load(os.path.join(model_dir, "best_acc.joblib"))
+        best_accuracy = joblib.load(os.path.join(
+            model_dir, f"{exp_name}best_acc.joblib"))
     except:
         print("No Previous Accuracy Found!")
 
     if accuarcy > best_accuracy:
-        model.save(os.path.join(model_dir, "stack_cnn.h5"), save_format="h5")
+        model.save(os.path.join(model_dir, f"{exp_name}.h5"), save_format="h5")
+        joblib.dump(config, os.path.join(
+            model_dir, f"{exp_name}_config.joblib"))
         joblib.dump(history, os.path.join(
-            model_dir, "stack_cnn_history.joblib"))
-        joblib.dump(y_test, os.path.join(model_dir, "stack_cnn_y_true.joblib"))
-        joblib.dump(y_pred, os.path.join(model_dir, "stack_cnn_y_pred.joblib"))
-        joblib.dump(accuarcy, os.path.join(model_dir, "best_acc.joblib"))
-        results.to_excel(os.path.join(model_dir, "stack_cnn.xlsx"),
+            model_dir, f"{exp_name}_history.joblib"))
+        joblib.dump(y_test, os.path.join(
+            model_dir, f"{exp_name}_y_true.joblib"))
+        joblib.dump(y_pred, os.path.join(
+            model_dir, f"{exp_name}_y_pred.joblib"))
+        joblib.dump(accuarcy, os.path.join(
+            model_dir, f"{exp_name}_best_acc.joblib"))
+        results.to_excel(os.path.join(model_dir, f"{exp_name}.xlsx"),
                          sheet_name="metrics", index=False)
 
 
 if __name__ == "__main__":
-    data_dir, model_dir = parse_args(sys.argv)
+    exp_name, data_dir, model_dir = parse_args(sys.argv)
     create_if_not_exists(model_dir)
-    main(data_dir, model_dir)
+    main(exp_name, data_dir, model_dir)
