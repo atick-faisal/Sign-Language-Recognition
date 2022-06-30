@@ -1,21 +1,21 @@
 import numpy as np
 import pandas as pd
 from scipy.signal import resample
+
 from config import Config
 
 
 def extract_flxion_features(
     data: pd.DataFrame,
-    segment_length: int = 150,
-    hand: str = "r"
+    segment_length: int = 150
 ) -> np.ndarray:
-    data[f"d{hand}f0x"] = data[f"{hand}f0x"] - data[f"{hand}px"]
-    data[f"d{hand}f0y"] = data[f"{hand}f0y"] - data[f"{hand}py"]
-    data[f"d{hand}f0z"] = data[f"{hand}f0z"] - data[f"{hand}pz"]
+    data["drf0x"] = data["rf0x"] - data["rpx"]
+    data["drf0y"] = data["rf0y"] - data["rpy"]
+    data["drf0z"] = data["rf0z"] - data["rpz"]
 
-    data[f"d{hand}f1x"] = data[f"{hand}f1x"] - data[f"{hand}px"]
-    data[f"d{hand}f1y"] = data[f"{hand}f1y"] - data[f"{hand}py"]
-    data[f"d{hand}f1z"] = data[f"{hand}f1z"] - data[f"{hand}pz"]
+    data["drf1x"] = data["rf1x"] - data["rpx"]
+    data["drf1y"] = data["rf1y"] - data["rpy"]
+    data["drf1z"] = data["rf1z"] - data["rpz"]
 
     data = data[Config.DIST_FEATURES]
 

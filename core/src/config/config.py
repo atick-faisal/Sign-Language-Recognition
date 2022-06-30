@@ -5,7 +5,7 @@ class Config(object):
     IMG_LEN = 160  # 1/9 of the 224x224 image
     N_CHANNELS = 3
     LEARNING_RATE = 0.0003
-    BATCH_SIZE = 32
+    BATCH_SIZE = 64
     MAX_EPOCHS = 300
     PATIENCE = 30
     LINE_WIDTH = 2
