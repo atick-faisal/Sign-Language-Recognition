@@ -2,9 +2,11 @@ import cv2
 import math
 import numpy as np
 
+from typing import List
+
 
 def create_img_grid(
-    images: list[np.ndarray],
+    images: List[np.ndarray],
     img_grid_size: int = 224,
     rgb_image: bool = True
 ) -> np.ndarray:
@@ -34,6 +36,6 @@ def create_img_grid(
 
 
 def create_img_stack(
-    images: list[np.ndarray]
+    images: List[np.ndarray]
 ) -> np.ndarray:
     return np.stack(images, axis=-1)

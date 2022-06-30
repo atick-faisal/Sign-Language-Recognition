@@ -18,7 +18,7 @@ class LowPassFilter(object):
         cutoff: int = 6,
         fs: int = 100,
         order: int = 2
-    ):
+    ) -> np.ndarray:
         b, a = LowPassFilter.butter_lowpass(cutoff, fs, order)
         y = lfilter(b, a, data)
         return y

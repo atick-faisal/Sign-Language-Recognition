@@ -1,9 +1,9 @@
 import os
 import cv2
-import config
 import numpy as np
 import pandas as pd
 
+from typing import List
 from random import randint
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.ticker import NullLocator
@@ -78,7 +78,7 @@ class SpatialProjection():
         subject: str,
         gesture: str,
         img_dir: str = None
-    ) -> list[np.ndarray]:
+    ) -> List[np.ndarray]:
         landmark = data.columns[0][:-1]
         name = str(randint(100000, 999999))
 

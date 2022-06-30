@@ -9,29 +9,17 @@ def extract_flxion_features(
     segment_length: int = 150,
     hand: str = "r"
 ) -> np.ndarray:
-    data["drf0x"] = data["rf0x"] - data["rpx"]
-    data["drf0y"] = data["rf0y"] - data["rpy"]
-    data["drf0z"] = data["rf0z"] - data["rpz"]
+    data[f"d{hand}f0x"] = data[f"{hand}f0x"] - data[f"{hand}px"]
+    data[f"d{hand}f0y"] = data[f"{hand}f0y"] - data[f"{hand}py"]
+    data[f"d{hand}f0z"] = data[f"{hand}f0z"] - data[f"{hand}pz"]
 
-    data["drf1x"] = data["rf1x"] - data["rpx"]
-    data["drf1y"] = data["rf1y"] - data["rpy"]
-    data["drf1z"] = data["rf1z"] - data["rpz"]
+    data[f"d{hand}f1x"] = data[f"{hand}f1x"] - data[f"{hand}px"]
+    data[f"d{hand}f1y"] = data[f"{hand}f1y"] - data[f"{hand}py"]
+    data[f"d{hand}f1z"] = data[f"{hand}f1z"] - data[f"{hand}pz"]
 
     data = data[config.DIST_FEATURES]
 
     # ... Min-Max scaling of distance features
     data = (data - config.SCALER_MIN) / config.SCALER_RANGE
-
-    # features = []
-    # for i in range(5):
-    #     df = np.sqrt(
-    #         np.power(data[f"{hand}f{i}x"] - data[f"{hand}px"], 2) +
-    #         # np.power(data[f"{hand}f{i}y"] - data[f"{hand}py"], 2) +
-    #         np.power(data[f"{hand}f{i}z"] - data[f"{hand}pz"], 2)
-    #     )
-
-    #     features.append(df)
-
-    # return resample(np.array(features).T, segment_length, axis=0)
 
     return resample(data.to_numpy(), segment_length, axis=0)

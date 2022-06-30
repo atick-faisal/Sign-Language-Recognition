@@ -3,6 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 
+from typing import List, Tuple
 from rich.progress import Progress
 
 from .os_utils import get_file_count
@@ -13,13 +14,13 @@ from .img_utils import create_img_stack
 
 def get_train_test_set(
     data_dir: str,
-    subjects: list[str],
-    gestures: list[str],
-    feature_landmarks: list[str],
-    augmentation_levels: list[SpatialProjection],
+    subjects: List[str],
+    gestures: List[str],
+    feature_landmarks: List[str],
+    augmentation_levels: List[SpatialProjection],
     test_subject: str = None,
     test_size: float = 0.2
-) -> tuple[np.ndarray]:
+) -> Tuple[np.ndarray]:
 
     train_features = []
     train_images = []
