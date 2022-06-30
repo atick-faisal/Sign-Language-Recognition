@@ -31,6 +31,7 @@ def main(
     data_dir: str,
     model_dir: str
 ):
+    results_dir = os.path.join(model_dir, exp_name)
     subjects = os.listdir(data_dir)
 
     # ... Dataset Generation
@@ -97,7 +98,7 @@ def main(
     # ... Evaluation
     print("-" * 70 + "\nMetrics \n" + "-" * 70)
     results = pd.DataFrame()
-    loss, accuarcy = model.evaluate(X_test, y_test)
+    _, accuarcy = model.evaluate(X_test, y_test)
     y_pred = np.argmax(model.predict(X_test), axis=1)
     precision = precision_score(y_test, y_pred, average=None, zero_division=0)
     recall = recall_score(y_test, y_pred, average=None, zero_division=0)
@@ -111,28 +112,24 @@ def main(
     print("-" * 70 + "\nSaving Results ... \n" + "-" * 70)
     best_accuracy = 0
     try:
-        best_accuracy = joblib.load(os.path.join(
-            model_dir, f"{exp_name}best_acc.joblib"))
+        best_accuracy = joblib.load(
+            os.path.join(results_dir, "best_acc.joblib"))
     except:
         print("No Previous Accuracy Found!")
 
     if accuarcy > best_accuracy:
-        model.save(os.path.join(model_dir, f"{exp_name}.h5"), save_format="h5")
+        create_if_not_exists(results_dir)
+        model.save(os.path.join(results_dir, "model"))
         # joblib.dump(config, os.path.join(
         #     model_dir, f"{exp_name}_config.joblib"))
-        joblib.dump(history, os.path.join(
-            model_dir, f"{exp_name}_history.joblib"))
-        joblib.dump(y_test, os.path.join(
-            model_dir, f"{exp_name}_y_true.joblib"))
-        joblib.dump(y_pred, os.path.join(
-            model_dir, f"{exp_name}_y_pred.joblib"))
-        joblib.dump(accuarcy, os.path.join(
-            model_dir, f"{exp_name}_best_acc.joblib"))
-        results.to_excel(os.path.join(model_dir, f"{exp_name}.xlsx"),
+        joblib.dump(history, os.path.join(results_dir, "history.joblib"))
+        joblib.dump(y_test, os.path.join(results_dir, "y_true.joblib"))
+        joblib.dump(y_pred, os.path.join(results_dir, "y_pred.joblib"))
+        joblib.dump(accuarcy, os.path.join(results_dir, "best_acc.joblib"))
+        results.to_excel(os.path.join(results_dir, "metrics.xlsx"),
                          sheet_name="metrics", index=False)
 
 
 if __name__ == "__main__":
     exp_name, data_dir, model_dir = parse_args(sys.argv)
-    create_if_not_exists(model_dir)
     main(exp_name, data_dir, model_dir)
