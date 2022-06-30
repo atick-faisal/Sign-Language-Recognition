@@ -37,7 +37,8 @@ def main(
     sp_augment = [
         SpatialProjection(
             img_len=config.IMG_LEN,
-            polyfit_degree=degree
+            polyfit_degree=degree,
+            linewidth=config.LINE_WIDTH
         )
         for degree in config.AUGMENTATION_LEVELS]
 

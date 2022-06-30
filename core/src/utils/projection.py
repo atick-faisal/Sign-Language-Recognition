@@ -17,10 +17,12 @@ class SpatialProjection():
     def __init__(
         self,
         img_len: int,
-        polyfit_degree: int = 0
+        polyfit_degree: int = 0,
+        linewidth: int = 2
     ):
         self.img_len = img_len
         self.polyfit_degree = polyfit_degree
+        self.linewidth = linewidth
 
     @staticmethod
     def __write_image(
@@ -62,7 +64,7 @@ class SpatialProjection():
 
         canvas = FigureCanvas(fig)
         ax = fig.gca()
-        ax.plot(x, y, "-k", linewidth=2)
+        ax.plot(x, y, "-k", linewidth=self.linewidth)
         ax.axis("off")
         ax.xaxis.set_major_locator(NullLocator())
         ax.yaxis.set_major_locator(NullLocator())
