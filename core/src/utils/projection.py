@@ -16,11 +16,9 @@ from .filters import LowPassFilter
 class SpatialProjection():
     def __init__(
         self,
-        img_dir: str,
         img_len: int,
         polyfit_degree: int = 0
     ):
-        self.img_dir = img_dir
         self.img_len = img_len
         self.polyfit_degree = polyfit_degree
 
@@ -79,11 +77,11 @@ class SpatialProjection():
         data: pd.DataFrame,
         subject: str,
         gesture: str,
-        write_image: bool = False
+        img_dir: str = None
     ) -> list[np.ndarray]:
         landmark = data.columns[0][:-1]
         name = str(randint(100000, 999999))
-        write_dir = os.path.join(self.img_dir, subject, gesture, landmark)
+        write_dir = os.path.join(img_dir, subject, gesture, landmark)
 
         x = self.__get_preocessed_data(data.filter(regex="x"))
         y = self.__get_preocessed_data(data.filter(regex="y"))
@@ -93,7 +91,7 @@ class SpatialProjection():
         img_yz = self.__generate_projection_image(y, z)
         img_zx = self.__generate_projection_image(z, x)
 
-        if write_image == True:
+        if img_dir != None:
             self.__write_image(img_xy, write_dir, "xy", name)
             self.__write_image(img_yz, write_dir, "yz", name)
             self.__write_image(img_zx, write_dir, "zx", name)

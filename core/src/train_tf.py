@@ -25,7 +25,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 # ... Configuration
 data_dir = "data/dataset/raw"
 model_dir = "models/"
-assests_dir = "core/assests/"
 subjects = os.listdir(data_dir)
 
 
@@ -33,7 +32,6 @@ subjects = os.listdir(data_dir)
 print("-" * 70 + "\nGenerating Dataset\n" + "-" * 70)
 sp_augment = [
     SpatialProjection(
-        img_dir="data/dataset/images/",
         img_len=config.IMG_LEN,
         polyfit_degree=degree
     )
