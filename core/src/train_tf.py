@@ -49,7 +49,8 @@ def main(
         subjects=subjects,
         gestures=Config.GESTURES,
         feature_landmarks=Config.PROJECTION_LANDMARKS,
-        augmentation_levels=sp_augment
+        augmentation_levels=sp_augment,
+        test_subject="007"
     )
 
     # ... Model Initialization
