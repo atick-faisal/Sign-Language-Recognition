@@ -11,6 +11,8 @@ from .projection import SpatialProjection
 from .features import extract_flxion_features
 from .img_utils import create_img_stack
 
+random.seed(42)
+
 
 def get_train_test_set(
     data_dir: str,
