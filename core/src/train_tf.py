@@ -118,8 +118,8 @@ def main(
 
     if accuarcy > best_accuracy:
         model.save(os.path.join(model_dir, f"{exp_name}.h5"), save_format="h5")
-        joblib.dump(config, os.path.join(
-            model_dir, f"{exp_name}_config.joblib"))
+        # joblib.dump(config, os.path.join(
+        #     model_dir, f"{exp_name}_config.joblib"))
         joblib.dump(history, os.path.join(
             model_dir, f"{exp_name}_history.joblib"))
         joblib.dump(y_test, os.path.join(
