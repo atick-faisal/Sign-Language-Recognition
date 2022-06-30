@@ -3,13 +3,10 @@ import joblib
 import config
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 import tensorflow as tf
 
 from utils import (
-    create_img_stack,
-    extract_flxion_features,
     get_train_test_set,
     SpatialProjection
 )
