@@ -85,7 +85,6 @@ def get_train_test_set(
                             test_labels.append(gestures.index(gesture))
                             break
 
-            break
 
     train_features = np.array(train_features)
     train_images = np.array(train_images, dtype="uint8")
