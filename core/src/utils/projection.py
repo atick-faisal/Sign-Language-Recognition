@@ -81,7 +81,6 @@ class SpatialProjection():
     ) -> list[np.ndarray]:
         landmark = data.columns[0][:-1]
         name = str(randint(100000, 999999))
-        write_dir = os.path.join(img_dir, subject, gesture, landmark)
 
         x = self.__get_preocessed_data(data.filter(regex="x"))
         y = self.__get_preocessed_data(data.filter(regex="y"))
@@ -92,6 +91,7 @@ class SpatialProjection():
         img_zx = self.__generate_projection_image(z, x)
 
         if img_dir != None:
+            write_dir = os.path.join(img_dir, subject, gesture, landmark)
             self.__write_image(img_xy, write_dir, "xy", name)
             self.__write_image(img_yz, write_dir, "yz", name)
             self.__write_image(img_zx, write_dir, "zx", name)
