@@ -10,6 +10,7 @@ import tensorflow as tf
 from utils import (
     parse_args,
     get_train_test_set,
+    create_if_not_exists,
     SpatialProjection
 )
 
@@ -125,4 +126,5 @@ def main(
 
 if __name__ == "__main__":
     data_dir, model_dir = parse_args(sys.argv)
+    create_if_not_exists(model_dir)
     main(data_dir, model_dir)
