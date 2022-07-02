@@ -11,7 +11,7 @@ def extract_flxion_features(
 ) -> np.ndarray:
     # features = pd.DataFrame()
 
-    # Features v1.0
+    # # Features v1.0
     # features["drf0x"] = data["rf0x"] - data["rpx"]
     # features["drf0y"] = data["rf0y"] - data["rpy"]
     # features["drf0z"] = data["rf0z"] - data["rpz"]
@@ -76,7 +76,7 @@ def extract_flxion_features(
     diff_features["drf0x"] = data["rf0x"] - data["rpx"]
     diff_features["drf0z"] = data["rf0z"] - data["rpz"]
 
-    dist_features = dist_features / dist_features.max(axis=0)
+    # dist_features = dist_features / dist_features.max(axis=0)
 
     features = pd.concat([dist_features, diff_features], axis=1)
 
