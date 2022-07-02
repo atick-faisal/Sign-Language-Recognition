@@ -67,7 +67,7 @@ def main(
         base_model=base_model
     ).get_model(
         n_projections=Config.N_CHANNELS,
-        n_channels=len(Config.ALL_FEATURES)
+        n_channels=len(Config.DIST_FEATURES)
     )
 
     model.compile(
