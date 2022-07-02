@@ -8,7 +8,7 @@ class Config(object):
     BATCH_SIZE = 64
     MAX_EPOCHS = 300
     PATIENCE = 30
-    LINE_WIDTH = 3
+    LINE_WIDTH = 2
     PROJECTION_LANDMARKS = ["rp", "rf0", "rf1"]
     AUGMENTATION_LEVELS = [13, 11, 9, 7, 5, 0]
     INFERENCE_FEATURES = [
@@ -73,7 +73,13 @@ class Config(object):
     # SCALER_RANGE = [209.08497391, 178.58391672, 169.26662137, 174.0735184,
     #                 194.11552266, 166.07192772]
 
-    DIST_FEATURES = ["drf0", "drf1", "drf2", "drf0x", "drf0z"]
-    SCALER_MIN = [0.,    0.,    0., -120.07078572, -85.7437317]
-    SCALER_RANGE = [190.86407075, 156.87016301, 196.14986415, 304.62265771,
-                    177.02786573]
+    # ... Features v1.1
+    DIST_FEATURES = ["drf0x", "drf0z", "drf1x", "drf1z"]
+    SCALER_MIN = [-108.80884021,  -75.40455647, -105.06504236, -110.18809635]
+    SCALER_RANGE = [209.08497391, 169.26662137, 174.0735184, 166.07192772]
+
+    # ... Features v2.0 (failed)
+    # DIST_FEATURES = ["drf0", "drf1", "drf2", "drf0x", "drf0z"]
+    # SCALER_MIN = [0.,    0.,    0., -120.07078572, -85.7437317]
+    # SCALER_RANGE = [190.86407075, 156.87016301, 196.14986415, 304.62265771,
+    #                 177.02786573]
