@@ -12,20 +12,20 @@ def extract_flxion_features(
     features = pd.DataFrame()
 
     # Features v1.0
-    # features["drf0x"] = data["rf0x"] - data["rpx"]
-    # features["drf0y"] = data["rf0y"] - data["rpy"]
-    # features["drf0z"] = data["rf0z"] - data["rpz"]
-
-    # features["drf1x"] = data["rf1x"] - data["rpx"]
-    # features["drf1y"] = data["rf1y"] - data["rpy"]
-    # features["drf1z"] = data["rf1z"] - data["rpz"]
-
-    # Features v1.1
     features["drf0x"] = data["rf0x"] - data["rpx"]
+    features["drf0y"] = data["rf0y"] - data["rpy"]
     features["drf0z"] = data["rf0z"] - data["rpz"]
 
     features["drf1x"] = data["rf1x"] - data["rpx"]
+    features["drf1y"] = data["rf1y"] - data["rpy"]
     features["drf1z"] = data["rf1z"] - data["rpz"]
+
+    # Features v1.1
+    # features["drf0x"] = data["rf0x"] - data["rpx"]
+    # features["drf0z"] = data["rf0z"] - data["rpz"]
+
+    # features["drf1x"] = data["rf1x"] - data["rpx"]
+    # features["drf1z"] = data["rf1z"] - data["rpz"]
 
     # ... Features v2.0 (Failed)
     # ... Distance to thumb finger-tip
