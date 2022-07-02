@@ -77,3 +77,7 @@ class Config(object):
     SCALER_MIN = [0.,    0.,    0., -120.07078572, -85.7437317]
     SCALER_RANGE = [190.86407075, 156.87016301, 196.14986415, 304.62265771,
                     177.02786573]
+
+    # Features v3.0
+    DIFF_FEATURES = ["drf0x", "drf0z"]
+    DIST_FEATURES = ["drf0", "drf1", "drf2"]
