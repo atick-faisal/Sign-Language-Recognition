@@ -15,12 +15,12 @@ class Config(object):
         "rpx",
         "rpy",
         "rpz",
-        "rf0x",
-        "rf0y",
-        "rf0z",
-        "rf1x",
-        "rf1y",
-        "rf1z"
+        "drf0x",
+        "drf0y",
+        "drf0z",
+        "drf1x",
+        "drf1y",
+        "drf1z"
     ]
     MODEL_PREDICTION = "dev.atick.slr.model.prediction"
     FRAME_EVENT = "dev.atick.slr.frame"
