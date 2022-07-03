@@ -1,12 +1,13 @@
 import os
 import random
+import joblib
 import numpy as np
 import pandas as pd
 
 from typing import List, Tuple
 from rich.progress import Progress
 
-from .os_utils import get_file_count
+from .os_utils import create_if_not_exists, get_file_count
 from .projection import SpatialProjection
 from .features import extract_flxion_features
 from .img_utils import create_img_stack
@@ -30,6 +31,18 @@ def get_train_test_set(
     test_size: float = 0.2
 ) -> Tuple[np.ndarray]:
 
+    # ... Look for existing data
+    try:
+        save_dir = os.path.join(data_dir, "processed", test_subject)
+        dataset = joblib.load(os.path.join(save_dir, "dataset.joblib"))
+        X_train = dataset["X_train"]
+        X_test = dataset["X_test"]
+        y_train = dataset["y_train"]
+        y_test = dataset["y_test"]
+        return (X_train, X_test, y_train, y_test)
+    except:
+        pass
+
     train_features = []
     train_images = []
     train_labels = []
@@ -45,7 +58,7 @@ def get_train_test_set(
 
         for subject in subjects:
             for gesture in gestures:
-                gesture_dir = os.path.join(data_dir, subject, gesture)
+                gesture_dir = os.path.join(data_dir, "raw", subject, gesture)
                 recordings = os.listdir(gesture_dir)
                 for recording in recordings:
                     progress.update(
@@ -107,6 +120,19 @@ def get_train_test_set(
 
     y_train = np.array(train_labels, dtype="uint8")
     y_test = np.array(test_labels, dtype="uint8")
+
+    # ... Saving Dataset
+    save_dir = os.path.join(data_dir, "processed", test_subject)
+    create_if_not_exists(save_dir)
+    joblib.dump(
+        {
+            "X_train": X_train,
+            "X_test": X_test,
+            "y_train": y_train,
+            "y_test": y_test
+        },
+        os.path.join(save_dir, "dataset.joblib")
+    )
 
     print("-" * 70)
     print("Train Features Shape: ", X_train[0].shape)
