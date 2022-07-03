@@ -4,7 +4,7 @@ class Config(object):
     SEGMENT_LEN = 150
     IMG_LEN = 160  # 1/9 of the 224x224 image
     N_CHANNELS = 3
-    LEARNING_RATE = 0.0003
+    LEARNING_RATE = 0.0001
     BATCH_SIZE = 64
     MAX_EPOCHS = 300
     PATIENCE = 30

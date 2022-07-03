@@ -80,10 +80,10 @@ def extract_flxion_features(
 
     # features = pd.concat([dist_features, diff_features], axis=1)
 
-    # # # ... Min-Max scaling of distance features
-    # # features = (features - Config.SCALER_MIN) / Config.SCALER_RANGE
+    # ... Min-Max scaling of distance features
+    features = (features - Config.SCALER_MIN) / Config.SCALER_RANGE
 
     # ... Z-score normalization
-    features = (features - Config.SCALER_MEAN) / Config.SCALER_STD
+    # features = (features - Config.SCALER_MEAN) / Config.SCALER_STD
 
     return resample(features.to_numpy(), segment_length, axis=0)
