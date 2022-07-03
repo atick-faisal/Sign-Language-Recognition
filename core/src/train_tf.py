@@ -32,7 +32,7 @@ def main(
     model_dir: str
 ):
     results_dir = os.path.join(model_dir, exp_name)
-    subjects = os.listdir(data_dir)
+    subjects = os.listdir(os.path.join(data_dir, "raw"))
 
     # ... Dataset Generation
     print("-" * 70 + "\nGenerating Dataset\n" + "-" * 70)
@@ -52,6 +52,8 @@ def main(
         augmentation_levels=sp_augment,
         test_subject="007"
     )
+
+    sys.exit(0)
 
     # ... Model Initialization
     base_model = tf.keras.applications.MobileNetV2(

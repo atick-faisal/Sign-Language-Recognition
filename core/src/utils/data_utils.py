@@ -50,7 +50,7 @@ def get_train_test_set(
     test_images = []
     test_labels = []
 
-    total_files = get_file_count(data_dir)
+    total_files = get_file_count(os.path.join(data_dir, "raw"))
 
     with Progress() as progress:
         count = 0
