@@ -53,7 +53,7 @@ def main(
         test_subject="007"
     )
 
-    sys.exit(0)
+    # sys.exit(0)
 
     # ... Model Initialization
     base_model = tf.keras.applications.MobileNetV2(
