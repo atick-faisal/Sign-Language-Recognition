@@ -1,5 +1,4 @@
 import os
-import config
 import joblib
 import socketio
 import numpy as np
@@ -9,6 +8,9 @@ from threading import Timer
 from scipy.stats import mode
 from scipy.signal import resample
 from tensorflow.keras.models import load_model
+
+from config import Config
+from utils import pre_process_recording
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -44,9 +46,11 @@ def make_prediction():
     #                     (buffer["rf2z"] - buffer["rpz"]).pow(2)).pow(0.5)
 
     features = pd.DataFrame(
-        np.array(buffer).reshape(-1, len(config.FEATURE_NAMES)),
-        columns=config.FEATURE_NAMES
+        np.array(buffer).reshape(-1, len(Config.FEATURE_NAMES)),
+        columns=Config.FEATURE_NAMES
     )
+
+    features = pre_process_recording(features)
 
     features["drf0x"] = features["rf0x"] - features["rpx"]
     features["drf0y"] = features["rf0y"] - features["rpy"]
@@ -56,24 +60,24 @@ def make_prediction():
     features["drf1y"] = features["rf1y"] - features["rpy"]
     features["drf1z"] = features["rf1z"] - features["rpz"]
 
-    features = features[config.INFERENCE_FEATURES]
+    features = features[Config.INFERENCE_FEATURES]
 
     features.dropna(inplace=True)
 
     X = features.to_numpy()
-    X = resample(X, config.SEGMENT_LEN, axis=0)
+    X = resample(X, Config.SEGMENT_LEN, axis=0)
     X = scaler.transform(X)
     print(X.shape)
-    X = X.reshape(-1, config.SEGMENT_LEN, len(config.INFERENCE_FEATURES))
+    X = X.reshape(-1, Config.SEGMENT_LEN, len(Config.INFERENCE_FEATURES))
     # y_pred = model.predict(X)
     y_pred = np.argmax(
-        model.predict(np.split(X, len(config.INFERENCE_FEATURES),
+        model.predict(np.split(X, len(Config.INFERENCE_FEATURES),
                                axis=-1))[0]
     )
     # prediction = config.GESTURES[mode(y_pred)[0][0]]
-    prediction = config.GESTURES[y_pred]
+    prediction = Config.GESTURES[y_pred]
 
-    sio.emit(config.MODEL_PREDICTION, prediction)
+    sio.emit(Config.MODEL_PREDICTION, prediction)
     print(prediction)
 
     cleanup = Timer(2.0, reset_inference)
@@ -85,7 +89,7 @@ def connect():
     print('connection established')
 
 
-@sio.on(config.FRAME_EVENT)
+@sio.on(Config.FRAME_EVENT)
 def my_message(data):
     global inference_started
 
@@ -97,9 +101,9 @@ def my_message(data):
         inference_started = True
 
         print("predicting ... ", end="")
-        sio.emit(config.MODEL_PREDICTION, "Predicting ... ")
+        sio.emit(Config.MODEL_PREDICTION, "Predicting ... ")
 
-        inference = Timer(config.INFERENCE_TIME, make_prediction)
+        inference = Timer(Config.INFERENCE_TIME, make_prediction)
         inference.start()
 
 

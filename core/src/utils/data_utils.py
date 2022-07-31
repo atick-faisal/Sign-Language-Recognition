@@ -15,7 +15,7 @@ from .img_utils import create_img_stack
 random.seed(42)
 
 
-def __pre_process_recording(data: pd.DataFrame) -> pd.DataFrame:
+def pre_process_recording(data: pd.DataFrame) -> pd.DataFrame:
     data.drop(columns=["time"], inplace=True)
     data.drop(0, inplace=True)  # Remove first All-0 row
     return data - data.iloc[:10].median()  # Initial position correction
@@ -71,7 +71,7 @@ def get_train_test_set(
 
                     file_path = os.path.join(gesture_dir, recording)
                     data = pd.read_csv(file_path)
-                    data = __pre_process_recording(data)
+                    data = pre_process_recording(data)
 
                     if data.shape[0] == 0:
                         continue
