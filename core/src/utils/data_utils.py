@@ -94,7 +94,7 @@ def get_train_test_set(
 
                         _features = extract_flxion_features(data)
 
-                        img = create_img_stack(_images[:3])
+                        img = create_img_stack(_images)
 
                         if for_training:
                             train_features.append(_features)

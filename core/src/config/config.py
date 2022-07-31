@@ -9,7 +9,7 @@ class Config(object):
     MAX_EPOCHS = 300
     PATIENCE = 30
     LINE_WIDTH = 2
-    PROJECTION_LANDMARKS = ["rp", "rf0", "rf1"]
+    PROJECTION_LANDMARKS = ["rp"]
     AUGMENTATION_LEVELS = [13, 11, 9, 7, 5, 0]
     INFERENCE_FEATURES = [
         "rpx",
